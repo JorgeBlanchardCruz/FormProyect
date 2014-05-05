@@ -1,0 +1,31 @@
+    <ul class="nav nav-tabs">
+      <li><a href="/" title="Home" <%=current?("/")%>>Home</a></li>
+      <li><a href="/grammar"  title="Grammar" <%=current?("/grammar")%>>Grammar</a></li>
+      <li class="active"><a href="/tests"  title="Tests" <%=current?("/tests")%>>Tests</a></li>
+      <li><a href="/video"  title="Video" <%=current?("/video")%>>Video</a></li>
+    </ul>
+
+	<link rel="stylesheet" href="tests/css/mocha.css" />
+	<div id="mocha"></div>
+
+	<script src="tests/js/chai.js"></script>
+	<script src="tests/js/mocha.js"></script>
+		
+	<script>mocha.setup('tdd')</script>
+	<script src="tests/js/tests.js"></script>
+		
+	<script>
+		mocha.run();
+	</script>
+
+	<table class="loadfile">
+
+  </table>
+
+  <p>
+    <div id="flash"></div>
+  </p>
+
+  <div class="hidden" id="out">
+
+  </div>
