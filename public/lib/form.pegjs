@@ -17,7 +17,7 @@
 
 
 start
-  = BEGIN (initialize)? (options)? form END DOT
+  = BEGIN (initialize)? (options)? (form)* END DOT
 
 initialize
   = HEAD ID
@@ -35,7 +35,7 @@ height
   = HEIGHT ASSIGN NUMBER
 
 form
-  = FORM ((textbox)* (checkbox)*)*
+  = FORM (textbox)* (checkbox)*
 
 textbox
   = TXT ID ASSIGN VALUE

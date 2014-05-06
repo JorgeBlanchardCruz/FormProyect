@@ -7,7 +7,7 @@ $(document).ready(function() {
       out.className = "unhidden";
       
       // Import: Change: $('#input').val() -> source, i forget it, again 
-      var result = calculator.parse(source);
+      var result = pl0.parse(source);
       $('#output').html(JSON.stringify(result,undefined,2));
     } catch (e) {
       $('#output').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
