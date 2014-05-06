@@ -10,7 +10,7 @@
 
 ##  Funcionamiento
 
->Puede probar en [Heroku](http://FormProyect.herokuapp.com/), el funcionamiento del *Formulario WEB*.
+>Puede probar en [Heroku](http://formproyect.herokuapp.com/), el funcionamiento del *Formulario WEB*.
 
 >... EN PROCESO ...
 
@@ -37,7 +37,7 @@
 
 >Entorno de pruebas basado en [Mocha](http://visionmedia.github.io/mocha/) y [Chai](http://chaijs.com/guide/installation/). 
 
->Pueden ejecutarse las pruebas [aquí](http://FormProyect.herokuapp.com/tests).
+>Pueden ejecutarse las pruebas [aquí](http://formproyect.herokuapp.com/tests).
 
 
 ## Colaboradores
