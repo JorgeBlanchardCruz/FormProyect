@@ -1,8 +1,3 @@
-/*
- * Classic example grammar, which recognizes simple arithmetic expressionressions like
- * "2*(3+4)". The parser generated from this grammar then AST.
- */
-
 {
   var tree = function(f, r) {
     if (r.length > 0) {
@@ -20,94 +15,59 @@
   }
 }
 
-// ***** PROGRAM
-program = b:block DOT                                { return { type: 'PROGRAM', block: b }; } 
 
-// ***** BLOCK
-block       = c:(const_block)? v:(var_block)? p:(proc_block)* s:statement 
-                                                        {
-                                                            var block_ = [];
-                                                            if(c) block_ = block_.concat(c);
-                                                            if(v) block_ = block_.concat(v);
-                                                            if(p) block_ = block_.concat(p);
-                                                            block_ = block_.concat([s]);
-                                                            return block_;
-                                                        }
+start
+  = BEGIN (initialize)? (options)? form END DOT
 
-// ***** CONST_BLOCK
-const_block = CONST a1:assignment a2:(COMMA a21:assignment 
-                                                        { return a21; })* SEMICOLON 
-                                                        { return { type: 'CONST', value: [a1].concat(a2) }; } 
+initialize
+  = HEAD ID
 
-// ***** VAR_BLOCK
-var_block   = VAR i1:ID i2:(COMMA i21:ID                { return i21; })* SEMICOLON
-                                                        { return { type: 'VAR', value: [i1].concat(i2) }; } 
+options
+  = OPTIONS (logo)? (width)? (height)?
 
-// ***** PROC_BLOCK
-proc_block  = PROCEDURE i:ID a:argument? SEMICOLON b:block SEMICOLON
-                                                        { return { type: 'PROCEDURE', value: i, argument: a, block: b}; }
+logo 
+  = LOGO ASSIGN PATH
 
-// ***** STATEMENT
-statement   = i:ID ASSIGN e:expression                  { return {type: '=', left: i, right: e}; }
-            / CALL i:ID a:argument?                     { return {type:'CALL', value: i, argument: a}; }
-            / BEGIN s1:statement s2:(SEMICOLON s21:statement
-                                                        { return s21; })* END
-                                                        { return { type: 'BEGIN', value: [s1].concat(s2) }; }
-            / IF c:condition THEN s:statement ELSE sf:statement
-                                                        { return { type: 'IFELSE', c: c, s: s, sf:sf, }; }
-            / IF c:condition THEN s:statement           { return { type: 'IF', c: c, s: s }; }
-            / WHILE c:condition DO s:statement          { return { type: 'WHILE', c: c, s: s }; }
+width
+  = WIDTH ASSIGN NUMBER
 
-// ***** ASSIGNMENT
-assignment    = i:ID ASSIGN n:NUMBER                    { return {type: '=', left: i, right: n}; }
+height
+  = HEIGHT ASSIGN NUMBER
 
-// ***** ARGUMENT
-argument      = LPAREN i1:(ID/NUMBER) i2:(COMMA i21:(ID/NUMBER)         
-                                                        { return i21; })*
-                                                RPAREN  { return [i1].concat(i2); } 
+form
+  = FORM ((textbox)* (checkbox)*)*
 
-// ***** CONDITION
-condition   = ODD e:expression                          { return {type: 'ODD', value: e}; }
-            / eL:expression COMPARISON eR:expression    { return {type: 'COMPARISON', left: eL, right: eR}; }
+textbox
+  = TXT ID ASSIGN VALUE
 
-// ***** EXPRESSION
-expression  = t:term   r:(ADDMINUS term)*               { return tree(t,r); }
+checkbox
+  = CHX ID ASSIGN VALUE 
 
-// ***** TERM
-term        = f:factor r:(MULDIV factor)*               { return tree(f,r); }
-
-// ***** FACTOR
-factor      = NUMBER
-            / ID
-            / LPAREN t:expression RPAREN                { return t; }
-
-// ***** CONST
 _ = $[ \t\n\r]*
-
-ASSIGN      = _ op:'=' _          { return op; }
-ADDMINUS    = _ op:[+-] _         { return op; }
-MULDIV      = _ op:[*/] _         { return op; }
-LPAREN      = _"("_
-RPAREN      = _")"_
+ASSIGN      = _ '=' _          
+ADDMINUS    = _ [+-] _         
+MULDIV      = _ [*/] _         
+LPAREN      = _ "("_
+RPAREN      = _ ")"_
 DOT         = _ "." _
 COMMA       = _ "," _
 SEMICOLON   = _ ";" _
-COMPARISON  = _ op:$([<>=!][=]/[<>]) _ { return op; }
-ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
-NUMBER      = _ digits:$[0-9]+ _ { return { type: 'NUM', value: parseInt(digits, 10) }; }
+COMPARISON  = _ ([<>=!][=]/[<>]) _ 
+ID          = _ ([a-zA-Z_][a-zA-Z_0-9]*) _
+NUMBER      = _ [0-9]+ _ 
+PATH        = _ (["][\/]?[a-zA-Z0-9\/]*["]) _
+VALUE       = _ (["][a-zA-Z]*["]) _ 
 
-IF          = _ ("if"/"IF") _
-THEN        = _ ("then"/"THEN") _
-ELSE        = _ ("else"/"ELSE") _
-WHILE       = _ ("while"/"WHILE") _
-DO          = _ ("do"/"DO") _
 BEGIN       = _ ("begin"/"BEGIN") _
 END         = _ ("end"/"END") _
-CALL        = _ ("call"/"CALL") _
-CONST       = _ ("const"/"CONST") _
-VAR         = _ ("VAR"/"var") _
-PROCEDURE   = _ ("procedure"/"PROCEDURE") _
-ODD         = _ ("odd"/"ODD") _
+HEAD        = _ ("head"/"HEAD") _
+OPTIONS     = _ ("options"/"OPTIONS") _ 
+LOGO        = _ ("logo"/"LOGO") _ 
+WIDTH       = _ ("width"/"WIDTH") _
+HEIGHT      = _ ("height"/"HEIGHT") _
+FORM        = _ ("form"/"FORM") _
+TXT         = _ ("txt"/"TXT") _
+CHX         = _ ("chx"/"CHX") _
 
 
 
