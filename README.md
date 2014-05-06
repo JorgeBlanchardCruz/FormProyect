@@ -42,10 +42,10 @@
 
 ## Colaboradores
 
-| Autores | E-mail |
-| ---------- | ---------- |
+| Autores                   | E-mail                   |
+| ------------------------- | ------------------------ |
 |Gonzalo||
-|Jorge||
+| Jorge O. Blanchard Cruz   | rothgard@live.com        |
 | María D. Batista Galván   | magomenlopark@gmail.com  |
 
 
