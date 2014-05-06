@@ -10,7 +10,7 @@
 
 ##  Funcionamiento
 
->Puede probar en [Heroku](http://FormProyect.herokuapp.com/), el funcionamiento del *Formulario WEB*.
+>Puede probar en [Heroku](http://formproyect.herokuapp.com/), el funcionamiento del *Formulario WEB*.
 
 >... EN PROCESO ...
 
@@ -37,16 +37,16 @@
 
 >Entorno de pruebas basado en [Mocha](http://visionmedia.github.io/mocha/) y [Chai](http://chaijs.com/guide/installation/). 
 
->Pueden ejecutarse las pruebas [aquí](http://FormProyect.herokuapp.com/tests).
+>Pueden ejecutarse las pruebas [aquí](http://formproyect.herokuapp.com/tests).
 
 
 ## Colaboradores
 
-| Autores                   | E-mail                   |
-| ------------------------- | ------------------------ |
-|Gonzalo||
-| Jorge O. Blanchard Cruz   | rothgard@live.com        |
-| María D. Batista Galván   | magomenlopark@gmail.com  |
+| Autores | E-mail |
+| ---------- | ---------- |
+| Gonzalo J. García Martín | dracoyue@gmail.com |
+| Jorge O. Blanchard Cruz | rothgard@live.com |
+| María D. Batista Galván | magomenlopark@gmail.com |
 
 
 ## Licencia
