@@ -44,8 +44,8 @@
 
 | Autores | E-mail |
 | ---------- | ---------- |
-|Gonzalo||
-|Jorge||
+| Gonzalo J. García Martín | dracoyue@gmail.com |
+| Jorge O. Blanchard Cruz |  |
 | María D. Batista Galván   | magomenlopark@gmail.com  |
 
 
