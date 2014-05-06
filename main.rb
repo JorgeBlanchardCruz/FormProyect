@@ -41,7 +41,7 @@ end
 
 get '/:selected?' do |selected|
   puts "\n*****************************@auth*****************************"
-  puts "\nName: " + session[:name]
+  puts "\nName: #{session[:name]}"
   puts "\n***** Auth Hash " 
   pp session[:auth]
   programs = FormProyect.all(:user => session[:name])
