@@ -5,20 +5,34 @@
 
 // ***** Definición de funciones 
 {
-  // ***** Función que nos sirve para la salida
-  var tree = function(f, r) {
-    if (r.length > 0) {
-      var last = r.pop();
-      var result = {
-        type:  last[0],
-        left: tree(f, r),
-        right: last[1]
-      };
+  // ***** Funciones que nos sirve para la salida
+  var tag = function(tg, ct, cl) {
+    var pr = ''; 
+    var po = "</" + tg + ">";
+    ct = ct.replace(/\n+$/,'');
+    if (cl) {
+      pr = "<" + tg +" class='"+cl+"'>";
+    } else {
+      pr = "<" + tg +">";
     }
-    else {
-      var result = f;
+    return "\t"+pr+ct+po+"\n";
+  }
+  var form_ = function (typ, nam, val) {
+    var pr = "<input type='"+typ+"' name='"+nam+"'>";
+    var po = "</br>";
+    val = val.replace(/\n+$/,'');
+    return "\t"+pr+val+po+"\n";
+  }
+  var img = function (logo, h, w, alt) {
+    var pr = ''; 
+    var po = '';
+    logo = logo.replace(/\n+$/,'');
+    if (alt) {
+        pr = "<img scr='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
+    } else {
+      pr = "<img scr='"+logo+"' height='"+h+"' width='"+w+"'>";
     }
-    return result;
+    return "\t"+pr+logo+po+"\n";
   }
 }
 
@@ -33,7 +47,7 @@ start         = BEGIN i:(initialize)? o:(options)? f:(form)* END DOT
                                                 }
 
 // ***** INITIZLIZE : En principio el encabezado del formulario 
-initialize    = HEAD i:ID                       { return {type: 'HEAD', value: i}; }
+initialize    = HEAD i:ID                       { return tag("h1", i); }
 
 // ***** OPTIONS : Opciones del estilo del formulario
 options       = OPTIONS l:(logo)? w:(width)? h:(height)?
@@ -46,7 +60,7 @@ options       = OPTIONS l:(logo)? w:(width)? h:(height)?
                                                 }
 
 // ***** LOGO : Se añade la ruta donde se encuentra el logo
-logo          = LOGO p:PATH                     { return {type: 'LOGO', value: p}; }
+logo          = LOGO p:PATH                     { return img(p, 30, 30); }
 
 // ***** WIDTH : Ancho del formulario
 width         = WIDTH n:NUMBER                  { return {type: 'WIDTH', value: n}; }
@@ -64,10 +78,10 @@ form          = FORM t:(textbox)* c:(checkbox)*
                                                 }
 
 // ***** TEXTBOX : 
-textbox       = TXT i:ID ASSIGN v:VALUE         { return {type: 'TXT', value: v}; }
+textbox       = TXT i:ID ASSIGN v:VALUE         { return form_("text", i, v); }
 
 // ***** CHECKBOX :
-checkbox      = CHX i:ID ASSIGN v:VALUE         { return {type: 'CHX', value: v}; }
+checkbox      = CHX i:ID ASSIGN v:VALUE         { return form_("checkbox", i, v); }
 
 // ***** CONST : Símbolos terminales
 _ = $[ \t\n\r]*
