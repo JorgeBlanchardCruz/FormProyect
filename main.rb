@@ -55,7 +55,9 @@ get '/:selected?' do |selected|
   img = session[:image]
   url = session[:url]
   email = session[:email]
-  source = if c then c.source else "begin \n\tform \nend." end
+  source = if c then c.source else "begin \n\thead Formulario\n\toptions
+    \n\t\tlogo \"img/logo.png\"\n\t\twidth 25\n\t\theight 25\n\tform\n\t\t
+    txt textbox = \"un_texto- AQUI\"\nend." end
   erb :index, 
       :locals => {  :programs => programs, :users => users, :source => source, 
                     :user => user, :img => img, :url => url, :email => email }
