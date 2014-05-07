@@ -5,7 +5,7 @@ end
 
 desc "Compile form.pegjs browser version"
 task :web do
-  sh "pegjs -e pl0 public/lib/form.pegjs public/js/form.js"
+  sh "pegjs -e form public/lib/form.pegjs public/js/form.js"
 end
 
 desc "Remove form.pegjs"
