@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  
   $('#parse').click(function() {
     try {
       var myCodeMirror = $(".CodeMirror")[0].CodeMirror

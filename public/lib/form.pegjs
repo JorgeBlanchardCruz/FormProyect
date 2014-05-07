@@ -17,16 +17,25 @@
     }
     return "\t"+pr+ct+po+"\n";
   }
-  var form_ = function (typ, nam, val) {
-    var pr = "<input type='"+typ+"' name='"+nam+"'>";
-    var po = "</br>";
-    val = val.replace(/\n+$/,'');
-    return "\t"+pr+val+po+"\n";
+
+  var form_ = function (typ, lab, nam, val) {
+  	var attrid;
+  	if(typ == "radio")
+  		attrid = "name"
+  	else
+  		attrid = "id"	
+
+  	val = val.replace(/\"/g,'');
+  	var pr = "<p>"+lab+"</p>";
+    pr += "<input type='"+typ+"' "+attrid+"='"+nam+"' placeholder='"+val+"'>";
+    var po = "</br>"; 
+    return pr+po;
   }
+
   var img = function (logo, h, w, alt) {
     var pr = ''; 
     var po = '';
-    logo = logo.replace(/\n+$/,'');
+    logo = logo.replace(/"\n+$"/,'');
     if (alt) {
         pr = "<img scr='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
     } else {
@@ -37,7 +46,7 @@
 }
 
 // ***** START : expresión de arranque
-start         = BEGIN i:(initialize)? o:(options)? f:(form)* END DOT
+start         = BEGIN i:(initialize)? o:(options)? f:(form)+ END DOT
                                                 {
                                                   var start_ = [];
                                                   if(i) start_ = start_.concat(i);
@@ -46,7 +55,7 @@ start         = BEGIN i:(initialize)? o:(options)? f:(form)* END DOT
                                                   return start_;
                                                 }
 
-// ***** INITIZLIZE : En principio el encabezado del formulario 
+// ***** INITIALIZE : En principio el encabezado del formulario 
 initialize    = HEAD i:ID                       { return tag("h1", i); }
 
 // ***** OPTIONS : Opciones del estilo del formulario
@@ -69,31 +78,37 @@ width         = WIDTH n:NUMBER                  { return {type: 'WIDTH', value: 
 height        = HEIGHT n:NUMBER                 { return {type: 'HEIGHT', value: n}; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
-form          = FORM t:(textbox)* c:(checkbox)*
+form          = FORM t:(textbox)* p:(password)* c:(checkbox)* r:(radiobutton)*
                                                 {
                                                   var form_ = [];
                                                   form_ = form_.concat(t);
+                                                  form_ = form_.concat(p);
                                                   form_ = form_.concat(c);
+                                                  form_ = form_.concat(r);
                                                   return form_;
                                                 }
 
 // ***** TEXTBOX : 
-textbox       = TXT i:ID ASSIGN v:VALUE         { return form_("text", i, v); }
+textbox       = TXT l:ID i:ID ASSIGN v:VALUE     { return form_("text", l, i, v); }
 
 // ***** CHECKBOX :
-checkbox      = CHX i:ID ASSIGN v:VALUE         { return form_("checkbox", i, v); }
+checkbox      = CHX l:ID i:ID ASSIGN v:VALUE     { return form_("checkbox", l, i, v); }
+
+// ***** RADIO BUTTONS :
+radiobutton   = RBT l:ID i:ID ASSIGN v:VALUE     { return form_("radio", l, i, v); }
+
+// ***** PASSWORD :
+password      = PWD l:ID i:ID ASSIGN v:VALUE     { return form_("password", l, i, v); }
 
 // ***** CONST : Símbolos terminales
 _ = $[ \t\n\r]*
 ASSIGN      = _ '=' _          
 DOT         = _ "." _
 SEMICOLON   = _ ";" _ 
-ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _  { return id; }
-NUMBER      = _ digits:$[0-9]+ _                { return parseInt(digits, 10); } 
-PATH        = _ path:$(["][\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*["]) _ 
-                                                { return path; }
-VALUE       = _ val:$(["][a-zA-Z0-9\-_ ]*["]) _  
-                                                { return val; }
+ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                    { return id; }
+NUMBER      = _ digits:$[0-9]+ _                                  { return parseInt(digits, 10); } 
+PATH        = _ path:$(["][\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*["]) _ { return path; }
+VALUE       = _ val:$(["][a-zA-Z0-9\-_ ]*["]) _                   { return val; }
 
 BEGIN       = _ ("begin"/"BEGIN") _
 END         = _ ("end"/"END") _
@@ -105,6 +120,8 @@ HEIGHT      = _ ("height"/"HEIGHT") _
 FORM        = _ ("form"/"FORM") _
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
+RBT         = _ ("rbt"/"RBT") _
+PWD         = _ ("pwd"/"PWD") _
 
 
 
