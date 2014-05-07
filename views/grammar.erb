@@ -35,19 +35,57 @@
   <ol>
     <li> <i>Conjunto de Terminales:</i>
         <br>
-        $\Sigma = \{ ... \}$
+        $\Sigma = \{ (=), (;), (.), ID, NUMBER, PATH, VALUE, BEGIN, END, HEAD, OPTIONS, LOGO, WIDTH, HEIGHT \} \ \cup$ <br />
+        $\ \cup \{ FORM, TXT, CHX \} $
         <br>
     <li> Conjunto de <i>símbolos no terminales</i>, <i>variables sintácticas</i> o <i>categorías gramáticales</i>:<br>
-      $V = \{ ... \} $ 
-      <br>
+      $V = \{ start, initialize, options, logo, width, height, form, textbox, checkbox \} \ \cup $ <br>
+      $\ \cup \{ ... \} $ <br>
     <li> Productions:
     <li> <i>Reglas de Análisis:</i>
     <ol>
       <pre>
-          ...
+      start       = BEGIN (initialize)? (options)? (form)* END DOT
+
+      initialize  = HEAD ID
+
+      options     = OPTIONS (logo)? (width)? (height)?
+
+      logo        = LOGO ASSIGN PATH
+
+      width       = WIDTH ASSIGN NUMBER
+
+      height      = HEIGHT ASSIGN NUMBER
+
+      form        = FORM (textbox)* (checkbox)*
+
+      textbox     = TXT ID ASSIGN VALUE
+
+      checkbox    = CHX ID ASSIGN VALUE 
+
+      _ = $[ \t\n\r]*
+
+      ASSIGN      = _ '=' _          
+      DOT         = _ "." _
+      SEMICOLON   = _ ";" _ 
+      ID          = _ ([a-zA-Z_][a-zA-Z_0-9]*) _
+      NUMBER      = _ [0-9]+ _ 
+      PATH        = _ (["][\/]?[a-zA-Z0-9\/]*["]) _
+      VALUE       = _ (["][a-zA-Z]*["]) _ 
+
+      BEGIN       = _ ("begin"/"BEGIN") _
+      END         = _ ("end"/"END") _
+      HEAD        = _ ("head"/"HEAD") _
+      OPTIONS     = _ ("options"/"OPTIONS") _ 
+      LOGO        = _ ("logo"/"LOGO") _ 
+      WIDTH       = _ ("width"/"WIDTH") _
+      HEIGHT      = _ ("height"/"HEIGHT") _
+      FORM        = _ ("form"/"FORM") _
+      TXT         = _ ("txt"/"TXT") _
+      CHX         = _ ("chx"/"CHX") _
       </pre>
     </ol>
-    <li> <i>Expresión de arranque: </i> <br> $S = ...$
+    <li> <i>Expresión de arranque: </i> <br> $S = start$
   </ol>
 </div>
 <br>
