@@ -1,11 +1,16 @@
 desc "Run server"
-task :default => [:use_keys, :web] do
+task :default => [:use_keys, :form, :ast] do
   sh "rackup"
 end
 
 desc "Compile form.pegjs browser version"
-task :web do
+task :form do
   sh "pegjs -e form public/lib/form.pegjs public/js/form.js"
+end
+
+desc "Compile ast.pegjs browser version"
+task :ast do
+  sh "pegjs -e ast public/lib/ast.pegjs public/js/ast.js"
 end
 
 desc "Remove form.pegjs"
@@ -34,10 +39,12 @@ task :ci, [ :message ] => :keep_secrets do |t, args|
   sh "git ci -am '#{message}'"
 end
 
+desc "Open test in firefox"
 task :testf do
   sh " open -a firefox tests/tests.html"
 end
 
+desc "Open test in safari"
 task :tests do
   sh " open -a safari tests/tests.html"
 end
