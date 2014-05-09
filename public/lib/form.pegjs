@@ -78,15 +78,13 @@ width         = WIDTH n:NUMBER                  { return {type: 'WIDTH', value: 
 height        = HEIGHT n:NUMBER                 { return {type: 'HEIGHT', value: n}; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
-form          = FORM t:(textbox)* p:(password)* c:(checkbox)* r:(radiobutton)*
-                                                {
-                                                  var form_ = [];
-                                                  form_ = form_.concat(t);
-                                                  form_ = form_.concat(p);
-                                                  form_ = form_.concat(c);
-                                                  form_ = form_.concat(r);
-                                                  return form_;
-                                                }
+form          = FORM f:(
+                          t:textbox             { return t; }
+                          / p:password          { return p; }
+                          / c:checkbox          { return c; }
+                          / r:radiobutton       { return r; }
+                        )*
+                                                { return f; }
 
 // ***** TEXTBOX : 
 textbox       = TXT l:ID i:ID ASSIGN v:VALUE     { return form_("text", l, i, v); }
