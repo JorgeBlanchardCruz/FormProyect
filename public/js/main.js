@@ -8,8 +8,10 @@ $(document).ready(function() {
       out.className = "unhidden";
       
       // Import: Change: $('#input').val() -> source, i forget it, again 
-      var result = form.parse(source);
+      var result = ast.parse(source);
+      var result2 = form.parse(source);
       $('#output').html(JSON.stringify(result,undefined,2));
+      $('#output2').html(JSON.stringify(result2,undefined,2));
     } catch (e) {
       $('#output').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
     }
