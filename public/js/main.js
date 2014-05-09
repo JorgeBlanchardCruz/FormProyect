@@ -1,20 +1,25 @@
 $(document).ready(function() {
   
   $('#parse').click(function() {
-    try {
       var myCodeMirror = $(".CodeMirror")[0].CodeMirror
       var source = myCodeMirror.getValue()
 
       out.className = "unhidden";
-      
-      // Import: Change: $('#input').val() -> source, i forget it, again 
+
+    try {
       var result = ast.parse(source);
-      var result2 = form.parse(source);
       $('#output').html(JSON.stringify(result,undefined,2));
-      $('#output2').html(JSON.stringify(result2,undefined,2));
     } catch (e) {
       $('#output').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
     }
+
+    try {
+      var result2 = form.parse(source);
+      $('#output2').html(JSON.stringify(result2,undefined,2));
+    } catch (e) {
+      $('#output2').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
+    }
+    
   });
 
   $("#examples").change(function(ev) {
