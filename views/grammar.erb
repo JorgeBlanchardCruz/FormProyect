@@ -36,10 +36,10 @@
     <li> <i>Conjunto de Terminales:</i>
         <br>
         $\Sigma = \{ (=), (;), (.), ID, NUMBER, PATH, VALUE, BEGIN, END, HEAD, OPTIONS, LOGO, WIDTH, HEIGHT \} \ \cup$ <br />
-        $\ \cup \{ FORM, TXT, CHX \} $
+        $\ \cup \{ FORM, TXT, CHX, RBT, PWD \} $
         <br>
     <li> Conjunto de <i>símbolos no terminales</i>, <i>variables sintácticas</i> o <i>categorías gramáticales</i>:<br>
-      $V = \{ start, initialize, options, logo, width, height, form, textbox, checkbox \} \ \cup $ <br>
+      $V = \{ start, initialize, options, logo, width, height, form, textbox, checkbox, radiobutton, password \} \ \cup $ <br>
       $\ \cup \{ ... \} $ <br>
     <li> Productions:
     <li> <i>Reglas de Análisis:</i>
@@ -57,11 +57,15 @@
 
       height      = HEIGHT ASSIGN NUMBER
 
-      form        = FORM (textbox)* (checkbox)*
+      form        = FORM (textbox)* (password)* (checkbox)* (radiobutton)*
 
-      textbox     = TXT ID ASSIGN VALUE
+      textbox     = TXT ID ID ASSIGN VALUE
 
-      checkbox    = CHX ID ASSIGN VALUE 
+      checkbox    = CHX ID ID ASSIGN VALUE
+
+      radiobutton = RBT ID ID ASSIGN VALUE
+
+      password    = PWD ID ID ASSIGN VALUE
 
       _ = $[ \t\n\r]*
 
@@ -83,6 +87,8 @@
       FORM        = _ ("form"/"FORM") _
       TXT         = _ ("txt"/"TXT") _
       CHX         = _ ("chx"/"CHX") _
+      RBT         = _ ("rbt"/"RBT") _
+      PWD         = _ ("pwd"/"PWD") _
       </pre>
     </ol>
     <li> <i>Expresión de arranque: </i> <br> $S = start$
