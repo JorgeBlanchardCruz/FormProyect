@@ -23,7 +23,7 @@
 }
 
 // ***** START : expresión de arranque
-start         = BEGIN i:(initialize)? o:(options)? f:(form)* END DOT
+start         = BEGIN i:(initialize)? o:(options)? f:(form)+ END DOT
                                                 {
                                                   var start_ = [];
                                                   if(i) start_ = start_.concat(i);
@@ -55,19 +55,27 @@ width         = WIDTH n:NUMBER                  { return {type: 'WIDTH', value: 
 height        = HEIGHT n:NUMBER                 { return {type: 'HEIGHT', value: n}; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
-form          = FORM t:(textbox)* c:(checkbox)*
+form          = FORM t:(textbox)* p:(password)* c:(checkbox)* r:(radiobutton)*
                                                 {
                                                   var form_ = [];
                                                   form_ = form_.concat(t);
+                                                  form_ = form_.concat(p);
                                                   form_ = form_.concat(c);
+                                                  form_ = form_.concat(r);
                                                   return form_;
                                                 }
 
 // ***** TEXTBOX : 
-textbox       = TXT i:ID ASSIGN v:VALUE         { return {type: 'TXT', value: v}; }
+textbox       = TXT l:ID i:ID ASSIGN v:VALUE     { return {type: 'TXT', value: v}; }
 
 // ***** CHECKBOX :
-checkbox      = CHX i:ID ASSIGN v:VALUE         { return {type: 'CHX', value: v}; }
+checkbox      = CHX l:ID i:ID ASSIGN v:VALUE     { return {type: 'CHX', value: v}; }
+
+// ***** RADIO BUTTONS :
+radiobutton   = RBT l:ID i:ID ASSIGN v:VALUE     { return {type: 'RBT', value: v}; }
+
+// ***** PASSWORD :
+password      = PWD l:ID i:ID ASSIGN v:VALUE     { return {type: 'PWD', value: v}; }
 
 // ***** CONST : Símbolos terminales
 _ = $[ \t\n\r]*
@@ -91,6 +99,8 @@ HEIGHT      = _ ("height"/"HEIGHT") _
 FORM        = _ ("form"/"FORM") _
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
+RBT         = _ ("rbt"/"RBT") _
+PWD         = _ ("pwd"/"PWD") _
 
 
 
