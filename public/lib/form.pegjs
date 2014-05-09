@@ -5,6 +5,18 @@
 
 // ***** Definición de funciones 
 {
+  var css = function(w, h) {
+    /*var pr = '<style type="text/css">'; 
+    var po = '</style>';
+    w = w.replace(/\n+$/,'');
+    h = h.replace(/\n+$/,'');
+    if (!w) w = "auto"
+    if (!h) h = "auto"
+    pr = pr + 'body { width: ' + w + 'px; height: ' + h + 'px; }';
+    return pr+po;*/
+    return w + ' ' + h;
+  }
+
   // ***** Funciones que nos sirve para la salida
   var tag = function(tg, ct, cl) {
     var pr = ''; 
@@ -15,7 +27,7 @@
     } else {
       pr = "<" + tg +">";
     }
-    return "\t"+pr+ct+po+"\n";
+    return '\t'+pr+ct+po+'\n';
   }
 
   var form_ = function (typ, lab, nam, val) {
@@ -41,7 +53,7 @@
     } else {
       pr = "<img scr='"+logo+"' height='"+h+"' width='"+w+"'>";
     }
-    return "\t"+pr+logo+po+"\n";
+    return '\t'+pr+logo+po+'\n';
   }
 }
 
@@ -52,7 +64,7 @@ start         = BEGIN i:(initialize)? o:(options)? f:(form)+ END DOT
                                                   if(i) start_ = start_.concat(i);
                                                   if(o) start_ = start_.concat(o);
                                                   if(f) start_ = start_.concat(f);
-                                                  return start_;
+                                                  return start_.join('');
                                                 }
 
 // ***** INITIALIZE : En principio el encabezado del formulario 
@@ -63,19 +75,19 @@ options       = OPTIONS l:(logo)? w:(width)? h:(height)?
                                                 {
                                                   var options_ = [];
                                                   if(l) options_ = options_.concat(l);
-                                                  if(w) options_ = options_.concat(w);
-                                                  if(h) options_ = options_.concat(h);
-                                                  return options_;
+                                                  size = css(w, h);
+                                                  options_ = options_.concat(size);
+                                                  return options_.join('');
                                                 }
 
 // ***** LOGO : Se añade la ruta donde se encuentra el logo
 logo          = LOGO p:PATH                     { return img(p, 30, 30); }
 
 // ***** WIDTH : Ancho del formulario
-width         = WIDTH n:NUMBER                  { return {type: 'WIDTH', value: n}; }
+width         = WIDTH n:NUMBER                  { return n; }
 
 // ***** HEIGHT : Altura del formulario
-height        = HEIGHT n:NUMBER                 { return {type: 'HEIGHT', value: n}; }
+height        = HEIGHT n:NUMBER                 { return n; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
@@ -84,7 +96,7 @@ form          = FORM f:(
                           / c:checkbox          { return c; }
                           / r:radiobutton       { return r; }
                         )*
-                                                { return f; }
+                                                { return "<form>" + f.join('') + "</form>"; }
 
 // ***** TEXTBOX : 
 textbox       = TXT l:ID i:ID ASSIGN v:VALUE     { return form_("text", l, i, v); }
