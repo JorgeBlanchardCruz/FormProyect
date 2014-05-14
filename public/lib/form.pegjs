@@ -27,7 +27,7 @@
     } else {
       pr = "<" + tg +">";
     }
-    return '\t'+pr+ct+po+'\n';
+    return pr+ct+po;
   }
 
   var form_ = function (typ, lab, nam, val) {
@@ -49,11 +49,11 @@
     var po = '';
     logo = logo.replace(/"\n+$"/,'');
     if (alt) {
-        pr = "<img scr='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
+        pr = "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
     } else {
-      pr = "<img scr='"+logo+"' height='"+h+"' width='"+w+"'>";
+      pr = "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
     }
-    return '\t'+pr+logo+po+'\n';
+    return pr+po+'<br>';
   }
 }
 
@@ -81,7 +81,7 @@ options       = OPTIONS l:(logo)? w:(width)? h:(height)?
                                                 }
 
 // ***** LOGO : Se añade la ruta donde se encuentra el logo
-logo          = LOGO p:PATH                     { return img(p, 30, 30); }
+logo          = LOGO p:PATH v:(VALUE)?          { return img(p, 30, 30, v); }
 
 // ***** WIDTH : Ancho del formulario
 width         = WIDTH n:NUMBER                  { return n; }
@@ -117,8 +117,9 @@ DOT         = _ "." _
 SEMICOLON   = _ ";" _ 
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                    { return id; }
 NUMBER      = _ digits:$[0-9]+ _                                  { return parseInt(digits, 10); } 
-PATH        = _ path:$(["][\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*["]) _ { return path; }
-VALUE       = _ val:$(["][a-zA-Z0-9\-_ ]*["]) _                   { return val; }
+PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*) (["])_ 
+                                                                  { return path; }
+VALUE       = _ (["]) val:$([a-zA-Z0-9\-_ ]*) (["]) _             { return val; }
 
 BEGIN       = _ ("begin"/"BEGIN") _
 END         = _ ("end"/"END") _
@@ -132,6 +133,7 @@ TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _
 PWD         = _ ("pwd"/"PWD") _
+
 
 
 

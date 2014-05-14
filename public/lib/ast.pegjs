@@ -46,7 +46,7 @@ options       = OPTIONS l:(logo)? w:(width)? h:(height)?
                                                 }
 
 // ***** LOGO : Se añade la ruta donde se encuentra el logo
-logo          = LOGO p:PATH                     { return {type: 'LOGO', value: p}; }
+logo          = LOGO p:PATH v:(VALUE)?          { return {type: 'LOGO', value: p}; }
 
 // ***** WIDTH : Ancho del formulario
 width         = WIDTH n:NUMBER                  { return {type: 'WIDTH', value: n}; }
@@ -80,12 +80,11 @@ _ = $[ \t\n\r]*
 ASSIGN      = _ '=' _          
 DOT         = _ "." _
 SEMICOLON   = _ ";" _ 
-ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _  { return id; }
-NUMBER      = _ digits:$[0-9]+ _                { return parseInt(digits, 10); } 
-PATH        = _ path:$(["][\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*["]) _ 
-                                                { return path; }
-VALUE       = _ val:$(["][a-zA-Z0-9\-_ ]*["]) _  
-                                                { return val; }
+ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                    { return id; }
+NUMBER      = _ digits:$[0-9]+ _                                  { return parseInt(digits, 10); } 
+PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*) (["])_ 
+                                                                  { return path; }
+VALUE       = _ (["]) val:$([a-zA-Z0-9\-_ ]*) (["]) _             { return val; }
 
 BEGIN       = _ ("begin"/"BEGIN") _
 END         = _ ("end"/"END") _
