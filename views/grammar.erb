@@ -57,7 +57,7 @@
 
       height      = HEIGHT ASSIGN NUMBER
 
-      form        = FORM (textbox / password / checkbox / radiobutton)*
+      form        = FORM (textbox/email/tel/date/range/password/checkbox/radiobutton)*
 
       textbox     = TXT ID ID ASSIGN VALUE
 
@@ -66,6 +66,14 @@
       radiobutton = RBT ID ID ASSIGN VALUE
 
       password    = PWD ID ID ASSIGN VALUE
+
+      email       = EMAIL ID ID ASSIGN MAIL   
+
+      tel         = TEL ID ID ASSIGN TLF     
+
+      date        = DAT ID ID ASSIGN VALUE     
+
+      range       = RAG ID ID ASSIGN VALUE     
 
       _ = $[ \t\n\r]*
 
@@ -76,6 +84,8 @@
       NUMBER      = _ [0-9]+ _ 
       PATH        = _ (["][\/]?[a-zA-Z0-9\/]*["]) _
       VALUE       = _ (["][a-zA-Z]*["]) _ 
+      MAIL        = _ email:$([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*)_
+      TLF         = _ tlf:$([0-9 ]*) _
 
       BEGIN       = _ ("begin"/"BEGIN") _
       END         = _ ("end"/"END") _

@@ -92,6 +92,10 @@ height        = HEIGHT n:NUMBER                 { return n; }
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
                           t:textbox             { return t; }
+                          / e:email             { return e; }
+                          / t:tel               { return t; }
+                          / d:date              { return d; }
+                          / r:range             { return r; }
                           / p:password          { return p; }
                           / c:checkbox          { return c; }
                           / r:radiobutton       { return r; }
@@ -110,6 +114,18 @@ radiobutton   = RBT l:ID i:ID ASSIGN v:VALUE     { return form_("radio", l, i, v
 // ***** PASSWORD :
 password      = PWD l:ID i:ID ASSIGN v:VALUE     { return form_("password", l, i, v); }
 
+// ***** EMAIL :
+email         = EMAIL l:ID i:ID ASSIGN v:MAIL   { return form_("email", l, i, v); }
+
+// ***** TEL :
+tel           = TEL l:ID i:ID ASSIGN v:TLF     { return form_("tel", l, i, v); }
+
+// ***** DATE :
+date          = DAT l:ID i:ID ASSIGN v:VALUE     { return form_("date", l, i, v); }
+
+// ***** RANGE :
+range         = RAG l:ID i:ID ASSIGN v:VALUE     { return form_("range", l, i, v); }
+
 // ***** CONST : Símbolos terminales
 _ = $[ \t\n\r]*
 ASSIGN      = _ '=' _          
@@ -120,6 +136,9 @@ NUMBER      = _ digits:$[0-9]+ _                                  { return parse
 PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*) (["])_ 
                                                                   { return path; }
 VALUE       = _ (["]) val:$([a-zA-Z0-9\-_ ]*) (["]) _             { return val; }
+MAIL        = _ email:$([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*)_
+                                                                  { return email; }
+TLF         = _ tlf:$([0-9 ]*) _                                  { return tlf; }
 
 BEGIN       = _ ("begin"/"BEGIN") _
 END         = _ ("end"/"END") _
@@ -133,7 +152,10 @@ TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _
 PWD         = _ ("pwd"/"PWD") _
-
+EMAIL       = _ ("email"/"EMAIL") _
+TEL         = _ ("tel"/"TEL") _
+DAT         = _ ("dat"/"DAT") _
+RAG         = _ ("rag"/"RAG") _
 
 
 
