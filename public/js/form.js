@@ -772,7 +772,10 @@ form = (function() {
       s0 = peg$currPos;
       s1 = peg$parseTXT();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parseID();
+        s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           s3 = peg$parseID();
           if (s3 !== peg$FAILED) {
@@ -813,7 +816,10 @@ form = (function() {
       s0 = peg$currPos;
       s1 = peg$parseCHX();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parseID();
+        s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           s3 = peg$parseID();
           if (s3 !== peg$FAILED) {
@@ -854,7 +860,10 @@ form = (function() {
       s0 = peg$currPos;
       s1 = peg$parseRBT();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parseID();
+        s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           s3 = peg$parseID();
           if (s3 !== peg$FAILED) {
@@ -895,7 +904,10 @@ form = (function() {
       s0 = peg$currPos;
       s1 = peg$parsePWD();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parseID();
+        s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           s3 = peg$parseID();
           if (s3 !== peg$FAILED) {
@@ -936,7 +948,10 @@ form = (function() {
       s0 = peg$currPos;
       s1 = peg$parseEMAIL();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parseID();
+        s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           s3 = peg$parseID();
           if (s3 !== peg$FAILED) {
@@ -977,7 +992,10 @@ form = (function() {
       s0 = peg$currPos;
       s1 = peg$parseTEL();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parseID();
+        s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           s3 = peg$parseID();
           if (s3 !== peg$FAILED) {
@@ -1018,7 +1036,10 @@ form = (function() {
       s0 = peg$currPos;
       s1 = peg$parseDAT();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parseID();
+        s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           s3 = peg$parseID();
           if (s3 !== peg$FAILED) {
@@ -1059,7 +1080,10 @@ form = (function() {
       s0 = peg$currPos;
       s1 = peg$parseRAG();
       if (s1 !== peg$FAILED) {
-        s2 = peg$parseID();
+        s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           s3 = peg$parseID();
           if (s3 !== peg$FAILED) {
@@ -1101,6 +1125,9 @@ form = (function() {
       s1 = peg$parseLBL();
       if (s1 !== peg$FAILED) {
         s2 = peg$parseVALUE();
+        if (s2 === peg$FAILED) {
+          s2 = peg$c1;
+        }
         if (s2 !== peg$FAILED) {
           peg$reportedPos = s0;
           s1 = peg$c26(s2);
@@ -2538,13 +2565,16 @@ form = (function() {
         if (!h) h = "auto"
         pr = pr + 'body { width: ' + w + 'px; height: ' + h + 'px; }';
         return pr+po;*/
+
         return w + ' ' + h;
       }
 
       // ***** Funciones que nos sirve para la salida
       var tag = function(tg, ct, cl) {
         var pr = ''; 
+
         var po = "</" + tg + ">";
+
         ct = ct.replace(/\n+$/,'');
         if (cl) {
           pr = "<" + tg +" class='"+cl+"'>";
@@ -2556,23 +2586,22 @@ form = (function() {
       }
 
       var form_ = function (typ, lab, nam, val) {
-      	var attrid, defaultvalue;
+      	var pr, po;
 
-    	switch(typ){
-    	case "radio":
-    	case "checkbox":
-    	    attrid = "name";
-    		defaultvalue = "text";
-    	    break;
-    	default:
-      		attrid = "id";
-      		defaultvalue = "placeholder";
-    	}
+      	po = "</br>";
 
       	val = val.replace(/\"/g,'');
-      	var pr = "<p>"+lab+"</p>";
-        pr += "<input type='"+typ+"' "+attrid+"='"+nam+"' "+defaultvalue+"='"+val+"'>";
-        var po = "</br>"; 
+
+      	lab = (lab ? lab : "");
+
+    	switch(typ){
+    		case "radio":
+    		case "checkbox":
+    			pr = "<input type="+typ+" name="+nam+" value="+val+">"+lab+"<br>";
+    		    break;
+    		default:
+    			pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>"
+    	}
 
         return pr+po;
       }

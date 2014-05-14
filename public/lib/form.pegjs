@@ -14,13 +14,16 @@
     if (!h) h = "auto"
     pr = pr + 'body { width: ' + w + 'px; height: ' + h + 'px; }';
     return pr+po;*/
+
     return w + ' ' + h;
   }
 
   // ***** Funciones que nos sirve para la salida
   var tag = function(tg, ct, cl) {
     var pr = ''; 
+
     var po = "</" + tg + ">";
+
     ct = ct.replace(/\n+$/,'');
     if (cl) {
       pr = "<" + tg +" class='"+cl+"'>";
@@ -32,23 +35,22 @@
   }
 
   var form_ = function (typ, lab, nam, val) {
-  	var attrid, defaultvalue;
+  	var pr, po;
 
-	switch(typ){
-	case "radio":
-	case "checkbox":
-	    attrid = "name";
-		defaultvalue = "text";
-	    break;
-	default:
-  		attrid = "id";
-  		defaultvalue = "placeholder";
-	}
+  	po = "</br>";
 
   	val = val.replace(/\"/g,'');
-  	var pr = "<p>"+lab+"</p>";
-    pr += "<input type='"+typ+"' "+attrid+"='"+nam+"' "+defaultvalue+"='"+val+"'>";
-    var po = "</br>"; 
+
+  	lab = (lab ? lab : "");
+
+	switch(typ){
+		case "radio":
+		case "checkbox":
+			pr = "<input type="+typ+" name="+nam+" value="+val+">"+lab+"<br>";
+		    break;
+		default:
+			pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>"
+	}
 
     return pr+po;
   }
@@ -116,34 +118,34 @@ form          = FORM f:(
 
 
 // ***** Linea en blanco : 
-whiteline	  = WHITELINE 						{ return '</br>'; }
+whiteline	  = WHITELINE 								{ return '</br>'; }
 
 // ***** TEXTBOX : 
-textbox       = TXT l:ID i:ID ASSIGN v:VALUE    { return form_("text", l, i, v); }
+textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("text", l, i, v); }
 
 // ***** CHECKBOX :
-checkbox      = CHX l:ID i:ID ASSIGN v:VALUE    { return form_("checkbox", l, i, v); }
+checkbox      = CHX l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("checkbox", l, i, v); }
 
 // ***** RADIO BUTTONS :
-radiobutton   = RBT l:ID i:ID ASSIGN v:VALUE    { return form_("radio", l, i, v); }
+radiobutton   = RBT l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("radio", l, i, v); }
 
 // ***** PASSWORD :
-password      = PWD l:ID i:ID ASSIGN v:VALUE    { return form_("password", l, i, v); }
+password      = PWD l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("password", l, i, v); }
 
 // ***** EMAIL :
-email         = EMAIL l:ID i:ID ASSIGN v:MAIL   { return form_("email", l, i, v); }
+email         = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL     { return form_("email", l, i, v); }
 
 // ***** TEL :
-tel           = TEL l:ID i:ID ASSIGN v:TLF		{ return form_("tel", l, i, v); }
+tel           = TEL l:(VALUE)? i:ID ASSIGN v:TLF		{ return form_("tel", l, i, v); }
 
 // ***** DATE :
-date          = DAT l:ID i:ID ASSIGN v:VALUE    { return form_("date", l, i, v); }
+date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("date", l, i, v); }
 
 // ***** RANGE :
-range         = RAG l:ID i:ID ASSIGN v:VALUE    { return form_("range", l, i, v); }
+range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("range", l, i, v); }
 
 // ***** LABEL :
-label         = LBL v:VALUE    					{ return "<p>" + v + "</p>"; }
+label         = LBL v:(VALUE)?    						{ return "<p>" + v + "</p>"; }
 
 // ***** CONST : Símbolos terminales
 _           = $[ \t\n\r]*
