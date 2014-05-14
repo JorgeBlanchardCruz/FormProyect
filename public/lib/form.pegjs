@@ -123,7 +123,7 @@ height        = HEIGHT n:NUMBER                 { return n; }
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
 						    w:whiteline    		{ return w; }
-						  / i:line      		{ return i; }
+						  / l:line      		{ return l; }
                           / t:textbox           { return t; }
                           / e:email             { return e; }
                           / t:tel               { return t; }
@@ -135,7 +135,7 @@ form          = FORM f:(
                           / l:label         	{ return l; }
                           / b:button 			{ return b; }
                         )*
-                                                { return "<form>" + f.join('') + "</form>"; }
+                                                { return '<form>' + f.join('') + '</form>'; }
 
 
 // ***** Linea en blanco : 
