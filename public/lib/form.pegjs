@@ -27,7 +27,8 @@
     ct = ct.replace(/\n+$/,'');
     if (cl) {
       pr = "<" + tg +" class='"+cl+"'>";
-    } else {
+    } 
+    else {
       pr = "<" + tg +">";
     }
 
@@ -44,12 +45,30 @@
   	lab = (lab ? lab : "");
 
 	switch(typ){
+		case "whiteline":
+			pr = '';
+			break;
+
+		case "line":
+			pr = '<hr>';
+			break;			
+
 		case "radio":
 		case "checkbox":
-			pr = "<input type="+typ+" name="+nam+" value="+val+">"+lab+"<br>";
+			lab = " " + lab;
+			pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
 		    break;
+
+		case "label":
+			pr = "<pre>" + val + "</pre>";
+			break;
+
+		case "button":
+			pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
+			break;
+
 		default:
-			pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>"
+			pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
 	}
 
     return pr+po;
@@ -104,6 +123,7 @@ height        = HEIGHT n:NUMBER                 { return n; }
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
 						    w:whiteline    		{ return w; }
+						  / i:line      		{ return i; }
                           / t:textbox           { return t; }
                           / e:email             { return e; }
                           / t:tel               { return t; }
@@ -113,12 +133,16 @@ form          = FORM f:(
                           / c:checkbox          { return c; }
                           / r:radiobutton       { return r; }
                           / l:label         	{ return l; }
+                          / b:button 			{ return b; }
                         )*
                                                 { return "<form>" + f.join('') + "</form>"; }
 
 
 // ***** Linea en blanco : 
-whiteline	  = WHITELINE 								{ return '</br>'; }
+whiteline	  = WHITELINE 								{ return form_("whiteline", "", "", ""); }
+
+// ***** LINE
+line 		  = LINE 									{ return form_("line", "", "", ""); }
 
 // ***** TEXTBOX : 
 textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("text", l, i, v); }
@@ -145,7 +169,13 @@ date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("date", l
 range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("range", l, i, v); }
 
 // ***** LABEL :
-label         = LBL v:(VALUE)?    						{ return "<p>" + v + "</p>"; }
+label         = LBL v:(VALUE)?    						{ return form_("label", "","",v); }
+
+// ***** BUTTON
+button 		  = BTN l:(VALUE)? i:ID 					{ return form_("button", l, i, ""); }
+
+
+
 
 // ***** CONST : Símbolos terminales
 _           = $[ \t\n\r]*
@@ -171,7 +201,8 @@ HEIGHT      = _ ("height"/"HEIGHT") _
 FORM        = _ ("form"/"FORM") _
 
 // ** Objetos del formulario
-WHITELINE	= _ ("_") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
+WHITELINE	= _ (":") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
+LINE    	= _ ("-") _
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _
@@ -180,7 +211,9 @@ EMAIL       = _ ("email"/"EMAIL") _
 TEL         = _ ("tel"/"TEL") _
 DAT         = _ ("dat"/"DAT") _
 RAG         = _ ("rag"/"RAG") _
-LBL         = _ ("lbl"/"lbl") _
+LBL         = _ ("lbl"/"LBL") _
+BTN         = _ ("btn"/"BTN") _
+
 
 
 
