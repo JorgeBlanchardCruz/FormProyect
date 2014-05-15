@@ -122,8 +122,8 @@ height        = HEIGHT n:NUMBER                 { return n; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
-						    w:whiteline    		{ return w; }
-						  / l:line      		{ return l; }
+						              w:whiteline    		    { return w; }
+						              / l:line      		    { return l; }
                           / t:textbox           { return t; }
                           / e:email             { return e; }
                           / t:tel               { return t; }
@@ -132,49 +132,47 @@ form          = FORM f:(
                           / p:password          { return p; }
                           / c:checkbox          { return c; }
                           / r:radiobutton       { return r; }
-                          / l:label         	{ return l; }
-                          / b:button 			{ return b; }
+                          / l:label         	  { return l; }
+                          / b:button 			      { return b; }
                         )*
                                                 { return '<form>' + f.join('') + '</form>'; }
 
 
 // ***** Linea en blanco : 
-whiteline	  = WHITELINE 								{ return form_("whiteline", "", "", ""); }
+whiteline	    = WHITELINE 								          { return form_("whiteline", "", "", ""); }
 
 // ***** LINE
-line 		  = LINE 									{ return form_("line", "", "", ""); }
+line 		      = LINE 									              { return form_("line", "", "", ""); }
 
 // ***** TEXTBOX : 
-textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("text", l, i, v); }
+textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("text", l, i, v); }
 
 // ***** CHECKBOX :
-checkbox      = CHX l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("checkbox", l, i, v); }
+checkbox      = CHX l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("checkbox", l, i, v); }
 
 // ***** RADIO BUTTONS :
-radiobutton   = RBT l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("radio", l, i, v); }
+radiobutton   = RBT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("radio", l, i, v); }
 
 // ***** PASSWORD :
-password      = PWD l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("password", l, i, v); }
+password      = PWD l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("password", l, i, v); }
 
 // ***** EMAIL :
-email         = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL     { return form_("email", l, i, v); }
+email         = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL { return form_("email", l, i, v); }
 
 // ***** TEL :
 tel           = TEL l:(VALUE)? i:ID ASSIGN v:TLF		{ return form_("tel", l, i, v); }
 
 // ***** DATE :
-date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("date", l, i, v); }
+date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("date", l, i, v); }
 
 // ***** RANGE :
-range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE      { return form_("range", l, i, v); }
+range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("range", l, i, v); }
 
 // ***** LABEL :
-label         = LBL v:(VALUE)?    						{ return form_("label", "","",v); }
+label         = LBL v:(VALUE)?    						      { return form_("label", "","",v); }
 
 // ***** BUTTON
-button 		  = BTN l:(VALUE)? i:ID 					{ return form_("button", l, i, ""); }
-
-
+button 		  = BTN l:(VALUE)? i:ID 					        { return form_("button", l, i, ""); }
 
 
 // ***** CONST : Símbolos terminales
