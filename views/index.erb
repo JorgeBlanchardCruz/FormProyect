@@ -59,16 +59,16 @@
 
           <br><br>
 
-          <span class="btn btn-file">
-          <input onclick="save()" type="button" name="Submit" value="Download the Form" id="Submit" />
-          </span>
+          <div class="control-group">
+            <label for="saveas">Download the form:</label>
+            <input onclick="save()" class="btn" type="button" name="Submit" value="Download the Form" id="Submit" />
+          </div>
 
           <div class="control-group">
             <label for="saveas">Save the code as:</label>
             <input id="saveas" type="text" name="fname" class="input-large"
               title="Un identificador (que no sea la palabra 'test')"
               pattern="^(?!test$)\w+$"/>
-            <input class="btn" type="submit" value="Save">
           </div>
 
           <form class="form-horizontal" action="/delete" method="post">
@@ -78,7 +78,6 @@
                 title="Un identificador (que no sea la palabra 'test')"
                 pattern="^(?!test$)\w+$"/>
               <br><br>
-              <input class="btn" type="submit" value="Delete">
             </div>
           </form>
 
