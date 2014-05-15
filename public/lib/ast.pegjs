@@ -78,34 +78,34 @@ whiteline     = WHITELINE                           { return {type: 'WHITELINE'}
 line          = LINE                                { return {type: 'LINE'}; }
 
 // ***** TEXTBOX : 
-textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'TXT', value: v}; }
+textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'TXT', label: l, value: v}; }
 
 // ***** CHECKBOX :
-checkbox      = CHX l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'CHX', value: v}; }
+checkbox      = CHX l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'CHX', label: l, value: v}; }
 
 // ***** RADIO BUTTONS :
-radiobutton   = RBT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'RBT', value: v}; }
+radiobutton   = RBT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'RBT', label: l, value: v}; }
 
 // ***** PASSWORD :
-password      = PWD l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'PWD', value: v}; }
+password      = PWD l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'PWD', label: l, value: v}; }
 
 // ***** EMAIL :
-email         = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL { return {type: 'EMAIL', value: v}; }
+email         = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL { return {type: 'EMAIL', label: l, value: v}; }
 
 // ***** TEL :
-tel           = TEL l:(VALUE)? i:ID ASSIGN v:TLF    { return {type: 'TEL', value: v}; }
+tel           = TEL l:(VALUE)? i:ID ASSIGN v:TLF    { return {type: 'TEL', label: l, value: v}; }
 
 // ***** DATE :
-date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'DAT', value: v}; }
+date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'DAT', label: l, value: v}; }
 
 // ***** RANGE :
-range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'RAG', value: v}; }
+range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'RAG', label: l, value: v}; }
 
 // ***** LABEL :
 label         = LBL v:(VALUE)?                      { return {type: 'LBL', value: v}; }
 
 // ***** BUTTON
-button        = BTN l:(VALUE)? i:ID                 { return {type: 'BTN', value: v}; }    
+button        = BTN l:(VALUE)? i:ID                 { return {type: 'BTN', label: l, id: i}; }    
 
 // ***** CONST : Símbolos terminales
 _           = $[ \t\n\r]*

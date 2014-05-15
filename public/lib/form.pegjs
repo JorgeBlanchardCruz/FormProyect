@@ -15,21 +15,21 @@
     pr = pr + 'body { width: ' + w + 'px; height: ' + h + 'px; }';
     return pr+po;*/
 
-    return w + ' ' + h;
+    return ' ';
   }
 
   // ***** Funciones que nos sirve para la salida
-  var tag = function(tg, ct, cl) {
+  var tag = function(tg, ct, op, cl) {
     var pr = ''; 
 
     var po = "</" + tg + ">";
 
     ct = ct.replace(/\n+$/,'');
     if (cl) {
-      pr = "<" + tg +" class='"+cl+"'>";
+      pr = "<" + tg + " " + op + " class='"+cl+"'>";
     } 
     else {
-      pr = "<" + tg +">";
+      pr = "<" + tg + " " + op + ">";
     }
 
     return pr+ct+po;
@@ -75,16 +75,16 @@
   }
 
   var img = function (logo, h, w, alt) {
-    var pr = ''; 
-    var po = '';
+    var pr = "<div align='center'>"; 
+    var po = '</div>';
     logo = logo.replace(/"\n+$"/,'');
     if (alt) {
-        pr = "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
+        pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
     } else {
-      pr = "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
+      pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
     }
 
-    return pr+po+'<br>';
+    return pr+po+'<br><br>';
   }
 }
 
@@ -99,7 +99,7 @@ start         = BEGIN i:(initialize)? o:(options)? f:(form)+ END DOT
                                                 }
 
 // ***** INITIALIZE : En principio el encabezado del formulario 
-initialize    = HEAD i:ID                       { return tag("h1", i); }
+initialize    = HEAD i:ID                       { return tag("h1", i, "align='center'"); }
 
 // ***** OPTIONS : Opciones del estilo del formulario
 options       = OPTIONS l:(logo)? w:(width)? h:(height)?
@@ -199,8 +199,8 @@ HEIGHT      = _ ("height"/"HEIGHT") _
 FORM        = _ ("form"/"FORM") _
 
 // ** Objetos del formulario
-WHITELINE	= _ (":") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
-LINE    	= _ ("-") _
+WHITELINE	  = _ (":") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
+LINE    	  = _ ("-") _
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _
