@@ -40,7 +40,8 @@ form = (function() {
                                                           if(i) start_ = start_.concat(i);
                                                           if(o) start_ = start_.concat(o);
                                                           if(f) start_ = start_.concat(f);
-                                                          return start_.join('');
+                                                          return {HTML: escapeHtml(start_.join('')), 
+                                                                  FORM: start_.join('')}; 
                                                         },
         peg$c4 = function(i) { return tag("h1", i, "align='center'"); },
         peg$c5 = function(l, w, h) {
@@ -2738,6 +2739,20 @@ form = (function() {
 
         return ' ';
       }
+
+      // ***** Escape del HTML
+      var entityMap = {
+        "&": "&amp;",   
+        "<": "&lt;",    
+        ">": "&gt;",    
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+      };
+
+      function escapeHtml(string) {
+        return String(string).replace(/[&<>"'\/]/g, function (s) { return entityMap[s]; });
+      };
 
       // ***** Funciones que nos sirve para la salida
       var tag = function(tg, ct, op, cl) {

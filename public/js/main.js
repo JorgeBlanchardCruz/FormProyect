@@ -15,9 +15,11 @@ $(document).ready(function() {
 
     try {
       var result2 = form.parse(source);
-      $('#output2').html(JSON.stringify(result2,undefined,2));
+      $('#output2').html(JSON.stringify(result2.FORM,undefined,2));
+      $('#output3').html(JSON.stringify(result2.HTML,undefined,2));
     } catch (e) {
       $('#output2').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
+      $('#output3').html('<div class="error"><pre>\n' + String(e) + '\n</pre></div>');
     }
     
   });
