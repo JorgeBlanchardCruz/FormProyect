@@ -36,6 +36,10 @@ $(document).ready(function() {
     r.readAsText(f);
   });
 
+  $("#Submit").click(function() {
+    alert("Descargando formulario en HTML");
+  });
+  
 });
 
   
