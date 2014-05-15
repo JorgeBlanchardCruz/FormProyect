@@ -41,8 +41,8 @@ $(document).ready(function() {
     alert("Output 3: " + $('Output3'));
 
         $.generateFile({
-            filename : 'export.txt', //Modificar AKI
-            content     : $('output3'), //Modificar aqui
+            filename : 'formulario.html', //Modificar AKI
+            content     : $('output3'),
             script      : 'lib/download.php'
         });
 
