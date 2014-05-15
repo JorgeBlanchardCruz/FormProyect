@@ -42,7 +42,7 @@ $(document).ready(function() {
         $.generateFile({
             filename : 'export.txt', //Modificar AKI
             content     : $('textarea').val(), //Modificar aqui
-            script      : 'download.php' //Cuidado con la ruta del script.
+            script      : 'lib/download.php' //Cuidado con la ruta del script.
         });
 
         e.preventDefault();
