@@ -38,11 +38,12 @@ $(document).ready(function() {
 
   $("#Submit").click(function() {
     alert("Descargando formulario en HTML");
+    alert("Output 3: " + $('Output3'));
 
         $.generateFile({
             filename : 'export.txt', //Modificar AKI
-            content     : $('textarea').val(), //Modificar aqui
-            script      : 'lib/download.php' //Cuidado con la ruta del script.
+            content     : $('output3'), //Modificar aqui
+            script      : 'lib/download.php'
         });
 
         e.preventDefault();
