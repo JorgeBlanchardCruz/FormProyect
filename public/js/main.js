@@ -36,12 +36,6 @@ $(document).ready(function() {
     r.readAsText(f);
   });
 
-  
-/* Falta poner esto en el html, pero no se como pasarlo a erb
-   <form action="./" method="post">
-            <a href="#" class="blueButton" id="download">Download</a>
-        </form>
-*/
   $("#Submit").click(function(e) {
 
      var myCodeMirror = $(".CodeMirror")[0].CodeMirror;
@@ -58,12 +52,6 @@ $(document).ready(function() {
      e.preventDefault();
   });
 
-  
-/* Falta poner esto en el html, pero no se como pasarlo a erb
-   <form action="./" method="post">
-            <a href="#" class="blueButton" id="download">Download</a>
-        </form>
-*/
   $("#Submit2").click(function(e) {
      //alert("Descargando formulario en HTML");
      //alert("Output 3: " + $('#output3'));

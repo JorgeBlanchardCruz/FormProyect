@@ -1,7 +1,7 @@
 <?php
 
 if(empty($_POST['filename']) || empty($_POST['content'])){
-   exit;
+	exit;
 }
 
 $filename = preg_replace('/[^a-z0-9\-\_\.]/i','',$_POST['filename']);
