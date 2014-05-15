@@ -9,7 +9,6 @@
   const COLPXDEF = 200, NCOLDEF= 1;
   var icol = 0, Ncol = NCOLDEF;
 
-
   var css = function(w, h) {
     /*var pr = '<style type="text/css">'; 
     var po = '</style>';
@@ -57,10 +56,15 @@
   var form_ = function (typ, lab, nam, val) {
   	var pi = "", pr, po = "";
 
-  	pi += (icol == 0 ? "<tr>" : ""); icol++;
-  	pi += "<td>";
-  	po += "</td>";
-  	if (icol == Ncol){ po += "</tr>"; icol = 0; }
+  	if(Ncol > 1){
+  		pi += (icol == 0 ? "<tr>" : ""); icol++;
+  		pi += "<td>";
+
+  		po += "</td>";
+  		if (icol == Ncol){ po += "</tr>"; icol = 0; }
+  	}
+  	else
+  		po = '</br>';
 
   	val = val.replace(/\"/g,'');
 
@@ -144,8 +148,11 @@ width         = WIDTH n:NUMBER                  { return n; }
 height        = HEIGHT n:NUMBER                 { return n; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
-form          = FORM c:(NUMBER)? w:(NUMBER)? f:(
+form          = FORM f:(
 								    w:whiteline    		{ return w; }
+								  / t:table 			{ return t; }
+								  / e:endtable 			{ return e; }
+								  / l:line    		    { return l; }
 		                          / t:textbox           { return t; }
 		                          / e:email             { return e; }
 		                          / t:tel               { return t; }
@@ -158,53 +165,58 @@ form          = FORM c:(NUMBER)? w:(NUMBER)? f:(
 		                          / b:button 			{ return b; }
 		                        )*
                         { 	
-                        	c = ( c ? c : NCOLDEF);
-                        	w = ( w ? w : COLPXDEF);
-                        	var out = '<form> <table style="width:'+w+'px">';
-                        	out += f.join('') + '</table> </form>';
-
-                        	Ncol = c;
-                        	icol = 0;	
-
-							return out; 
+							return '<form> '+f.join('')+' </form>'; 
 						}
 
 
+
+table = TABLE c:(NUMBER)? w:(NUMBER)? 					{
+															c = ( c ? c : NCOLDEF);
+								                        	w = ( w ? w : COLPXDEF);
+
+															Ncol = c;
+								                        	icol = 0;             	
+
+								                        	return '<form> <table style="width:'+w+'px">';
+														}
+
+endtable 		= ENDTABLE 								{ return '</table> </form>'; }
+
 // ***** Linea en blanco : 
-whiteline	    = WHITELINE 						{ return form_("whiteline", "", "", ""); }
+whiteline	    = WHITELINE 							{ return form_("whiteline", "", "", ""); }
 
 // ***** Línea horizontal
-line 		      = LINE 							{ return form_("line", "", "", ""); }
+line 			= LINE 									{ return form_("line", "", "", ""); }
 
 // ***** TEXTBOX : 
-textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("text", l, i, v); }
+textbox      	= TXT l:(VALUE)? i:ID ASSIGN v:VALUE  	{ return form_("text", l, i, v); }
 
 // ***** CHECKBOX :
-checkbox      = CHX l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("checkbox", l, i, v); }
+checkbox      	= CHX l:(VALUE)? i:ID ASSIGN v:VALUE  	{ return form_("checkbox", l, i, v); }
 
 // ***** RADIO BUTTONS :
-radiobutton   = RBT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("radio", l, i, v); }
+radiobutton   	= RBT l:(VALUE)? i:ID ASSIGN v:VALUE  	{ return form_("radio", l, i, v); }
 
 // ***** PASSWORD :
-password      = PWD l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("password", l, i, v); }
+password      	= PWD l:(VALUE)? i:ID ASSIGN v:VALUE  	{ return form_("password", l, i, v); }
 
 // ***** EMAIL :
-email         = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL { return form_("email", l, i, v); }
+email         	= EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL 	{ return form_("email", l, i, v); }
 
 // ***** TEL :
-tel           = TEL l:(VALUE)? i:ID ASSIGN v:TLF 	{ return form_("tel", l, i, v); }
+tel           	= TEL l:(VALUE)? i:ID ASSIGN v:TLF 		{ return form_("tel", l, i, v); }
 
 // ***** DATE :
-date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("date", l, i, v); }
+date          	= DAT l:(VALUE)? i:ID ASSIGN v:VALUE  	{ return form_("date", l, i, v); }
 
 // ***** RANGE :
-range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("range", l, i, v); }
+range         	= RAG l:(VALUE)? i:ID ASSIGN v:VALUE  	{ return form_("range", l, i, v); }
 
 // ***** LABEL :
-label         = LBL v:(VALUE)?						{ return form_("label", "","",v); }
+label         	= LBL v:(VALUE)?						{ return form_("label", "","",v); }
 
 // ***** BUTTON
-button 		  = BTN l:(VALUE)? i:ID 				{ return form_("button", l, i, ""); }
+button 		  	= BTN l:(VALUE)? i:ID 					{ return form_("button", l, i, ""); }
 
 
 // ***** CONST : Símbolos terminales
@@ -231,8 +243,10 @@ HEIGHT      = _ ("height"/"HEIGHT") _
 FORM        = _ ("form"/"FORM") _
 
 // ** Objetos del formulario
-WHITELINE	  = _ (";") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
-LINE    	  = _ ("-") _
+TABLE       = _ ("table"/"TABLE") _
+ENDTABLE    = _ ("endtable"/"ENDTABLE") _
+WHITELINE	= _ (";") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
+LINE    	= _ ("-") _
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _
@@ -243,8 +257,3 @@ DAT         = _ ("dat"/"DAT") _
 RAG         = _ ("rag"/"RAG") _
 LBL         = _ ("lbl"/"LBL") _
 BTN         = _ ("btn"/"BTN") _
-
-
-
-
-
