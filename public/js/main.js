@@ -1,8 +1,8 @@
 $(document).ready(function() {
   
   $('#parse').click(function() {
-      var myCodeMirror = $(".CodeMirror")[0].CodeMirror
-      var source = myCodeMirror.getValue()
+      var myCodeMirror = $(".CodeMirror")[0].CodeMirror;
+      var source = myCodeMirror.getValue();
 
       out.className = "unhidden";
 
@@ -37,18 +37,41 @@ $(document).ready(function() {
   });
 
   $("#Submit").click(function(e) {
-    //alert("Descargando formulario en HTML");
-    //alert("Output 3: " + $('#Output3'));
+     //alert("Descargando formulario en HTML");
+     //alert("Output 3: " + $('#output3'));
 
-        $.generateFile({
-            filename : 'formulario.html', //Modificar AKI
-            content     : $('#output3'),
-            script      : 'lib/download.php'
-        });
+     var myCodeMirror = $(".CodeMirror")[0].CodeMirror;
+     var source = myCodeMirror.getValue();
+     var result2 = form.parse(source);
+     
+     $.generateFile({
+         filename    : 'formulario.html', //export.txt
+         //content     : $('#output3'),
+         content     : $('#output3').html(JSON.stringify(result2.HTML,undefined,2)),
+         script      : 'lib/download.php'
+     });
 
-        e.preventDefault();
+     e.preventDefault();
   });
 
+  $("#Submit2").click(function(e) {
+     //alert("Descargando formulario en HTML");
+     //alert("Output 3: " + $('#output3'));
+
+     var myCodeMirror = $(".CodeMirror")[0].CodeMirror;
+     var source = myCodeMirror.getValue();
+     var result2 = form.parse(source);
+     
+     $.generateFile({
+         filename    : 'formulario.pdf', //export.txt
+         //content     : $('#output3'),
+         content     : $('#output3').html(JSON.stringify(result2.HTML,undefined,2)),
+         script      : 'lib/pdf.php'
+     });
+
+     e.preventDefault();
+  });
+  
 });
 
   
