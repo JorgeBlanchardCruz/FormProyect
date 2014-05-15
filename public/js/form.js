@@ -72,9 +72,9 @@ form = (function() {
         															Ncol = c;
         								                        	icol = 0;             	
 
-        								                        	return '<form> <table style="width:'+w+'px">';
+        								                        	return '<table style="width:'+w+'px">';
         														},
-        peg$c19 = function() { return '</table> </form>'; },
+        peg$c19 = function() { return '</table>'; },
         peg$c20 = function() { return form_("whiteline", "", "", ""); },
         peg$c21 = function() { return form_("line", "", "", ""); },
         peg$c22 = function(l, i, v) { return form_("text", l, i, v); },

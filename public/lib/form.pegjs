@@ -177,10 +177,10 @@ table = TABLE c:(NUMBER)? w:(NUMBER)? 					{
 															Ncol = c;
 								                        	icol = 0;             	
 
-								                        	return '<form> <table style="width:'+w+'px">';
+								                        	return '<table style="width:'+w+'px">';
 														}
 
-endtable 		= ENDTABLE 								{ return '</table> </form>'; }
+endtable 		= ENDTABLE 								{ return '</table>'; }
 
 // ***** Linea en blanco : 
 whiteline	    = WHITELINE 							{ return form_("whiteline", "", "", ""); }
