@@ -69,7 +69,7 @@ form          = FORM f:(
                           / l:label             { return l; }
                           / b:button            { return b; }
                         )*
-                                                { return f; }
+                                                { return {type: 'FORM', value: f}; }
 
 // ***** Linea en blanco : 
 whiteline     = WHITELINE                           { return {type: 'WHITELINE'}; }

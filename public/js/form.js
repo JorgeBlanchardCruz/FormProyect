@@ -2805,7 +2805,7 @@ form = (function() {
           pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
         }
 
-        return pr+po+'<br>';
+        return pr+po+'<br><br>';
       }
 
 
