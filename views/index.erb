@@ -64,13 +64,6 @@
             <input onclick="save()" class="btn" type="button" name="Submit" value="Download the Form" id="Submit" />
           </div>
 
-          <div class="control-group">
-            <label for="saveas">Save the code as:</label>
-            <input id="saveas" type="text" name="fname" class="input-large"
-              title="Un identificador (que no sea la palabra 'test')"
-              pattern="^(?!test$)\w+$"/>
-          </div>
-
           <form class="form-horizontal" action="/delete" method="post">
             <div class="control-group">
               <label for="deleteas">Delete the code:</label>
@@ -89,7 +82,16 @@
             <textarea id="input" name="input" autofocus rows = "7">
 <%= source %>
             </textarea>
+
             <br>
+
+            <div class="control-group">
+               <label for="saveas">Save the code as:</label>
+               <input id="saveas" type="text" name="fname" class="input-large"
+                 title="Un identificador (que no sea la palabra 'test')"
+                 pattern="^(?!test$)\w+$"/>
+            </div>
+
             <label>Click on the following button for create form:</label>
             <button class="btn" id="parse" type="button">Create form</button>
 
