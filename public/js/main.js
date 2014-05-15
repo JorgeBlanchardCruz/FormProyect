@@ -36,13 +36,13 @@ $(document).ready(function() {
     r.readAsText(f);
   });
 
-  $("#Submit").click(function() {
-    alert("Descargando formulario en HTML");
-    alert("Output 3: " + $('Output3'));
+  $("#Submit").click(function(e) {
+    //alert("Descargando formulario en HTML");
+    //alert("Output 3: " + $('#Output3'));
 
         $.generateFile({
             filename : 'formulario.html', //Modificar AKI
-            content     : $('output3'),
+            content     : $('#output3'),
             script      : 'lib/download.php'
         });
 
