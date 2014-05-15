@@ -38,8 +38,16 @@ $(document).ready(function() {
 
   $("#Submit").click(function() {
     alert("Descargando formulario en HTML");
+
+        $.generateFile({
+            filename : 'export.txt', //Modificar AKI
+            content     : $('textarea').val(), //Modificar aqui
+            script      : 'download.php' //Cuidado con la ruta del script.
+        });
+
+        e.preventDefault();
   });
-  
+
 });
 
   
