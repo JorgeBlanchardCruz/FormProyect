@@ -40,9 +40,10 @@ form = (function() {
                                                           if(i) start_ = start_.concat(i);
                                                           if(o) start_ = start_.concat(o);
                                                           if(f) start_ = start_.concat(f);
-                                                          return start_.join('');
+                                                          return {HTML: escapeHtml(start_.join('')), 
+                                                                  FORM: start_.join('')}; 
                                                         },
-        peg$c4 = function(i) { return tag("h1", i); },
+        peg$c4 = function(i) { return tag("h1", i, "align='center'"); },
         peg$c5 = function(l, w, h) {
                                                           var options_ = [];
                                                           if(l) options_ = options_.concat(l);
@@ -2736,21 +2737,35 @@ form = (function() {
         pr = pr + 'body { width: ' + w + 'px; height: ' + h + 'px; }';
         return pr+po;*/
 
-        return w + ' ' + h;
+        return ' ';
       }
 
+      // ***** Escape del HTML
+      var entityMap = {
+        "&": "&amp;",   
+        "<": "&lt;",    
+        ">": "&gt;",    
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+      };
+
+      function escapeHtml(string) {
+        return String(string).replace(/[&<>"'\/]/g, function (s) { return entityMap[s]; });
+      };
+
       // ***** Funciones que nos sirve para la salida
-      var tag = function(tg, ct, cl) {
+      var tag = function(tg, ct, op, cl) {
         var pr = ''; 
 
         var po = "</" + tg + ">";
 
         ct = ct.replace(/\n+$/,'');
         if (cl) {
-          pr = "<" + tg +" class='"+cl+"'>";
+          pr = "<" + tg + " " + op + " class='"+cl+"'>";
         } 
         else {
-          pr = "<" + tg +">";
+          pr = "<" + tg + " " + op + ">";
         }
 
         return pr+ct+po;
@@ -2796,16 +2811,16 @@ form = (function() {
       }
 
       var img = function (logo, h, w, alt) {
-        var pr = ''; 
-        var po = '';
+        var pr = "<div align='center'>"; 
+        var po = '</div>';
         logo = logo.replace(/"\n+$"/,'');
         if (alt) {
-            pr = "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
+            pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
         } else {
-          pr = "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
+          pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
         }
 
-        return pr+po+'<br>';
+        return pr+po+'<br><br>';
       }
 
 

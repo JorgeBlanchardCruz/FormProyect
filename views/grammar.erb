@@ -57,23 +57,31 @@
 
       height      = HEIGHT ASSIGN NUMBER
 
-      form        = FORM (textbox/email/tel/date/range/password/checkbox/radiobutton)*
+      form        = FORM (whiteline/line/textbox/email/tel/date/range/password/checkbox/radiobutton/label/button)*
 
-      textbox     = TXT ID ID ASSIGN VALUE
+      whiteline   = WHITELINE
 
-      checkbox    = CHX ID ID ASSIGN VALUE
+      line        = LINE 
 
-      radiobutton = RBT ID ID ASSIGN VALUE
+      textbox     = TXT (VALUE)? ID ASSIGN VALUE
 
-      password    = PWD ID ID ASSIGN VALUE
+      checkbox    = CHX (VALUE)? ID ASSIGN VALUE
 
-      email       = EMAIL ID ID ASSIGN MAIL   
+      radiobutton = RBT (VALUE)? ID ASSIGN VALUE
 
-      tel         = TEL ID ID ASSIGN TLF     
+      password    = PWD (VALUE)? ID ASSIGN VALUE
 
-      date        = DAT ID ID ASSIGN VALUE     
+      email       = EMAIL (VALUE)? ID ASSIGN MAIL   
 
-      range       = RAG ID ID ASSIGN VALUE     
+      tel         = TEL (VALUE)? ID ASSIGN TLF     
+
+      date        = DAT (VALUE)? ID ASSIGN VALUE     
+
+      range       = RAG (VALUE)? ID ASSIGN VALUE  
+
+      label       = LBL (VALUE)?  
+
+      button      = BTN (VALUE)? ID 
 
       _ = $[ \t\n\r]*
 
@@ -84,8 +92,8 @@
       NUMBER      = _ [0-9]+ _ 
       PATH        = _ (["][\/]?[a-zA-Z0-9\/]*["]) _
       VALUE       = _ (["][a-zA-Z]*["]) _ 
-      MAIL        = _ email:$([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*)_
-      TLF         = _ tlf:$([0-9 ]*) _
+      MAIL        = _ ([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*)_
+      TLF         = _ ([0-9 ]*) _
 
       BEGIN       = _ ("begin"/"BEGIN") _
       END         = _ ("end"/"END") _
@@ -95,10 +103,19 @@
       WIDTH       = _ ("width"/"WIDTH") _
       HEIGHT      = _ ("height"/"HEIGHT") _
       FORM        = _ ("form"/"FORM") _
+
+      WHITELINE   = _ (":") _
+      LINE        = _ ("-") _
       TXT         = _ ("txt"/"TXT") _
       CHX         = _ ("chx"/"CHX") _
       RBT         = _ ("rbt"/"RBT") _
       PWD         = _ ("pwd"/"PWD") _
+      EMAIL       = _ ("email"/"EMAIL") _
+      TEL         = _ ("tel"/"TEL") _
+      DAT         = _ ("dat"/"DAT") _
+      RAG         = _ ("rag"/"RAG") _
+      LBL         = _ ("lbl"/"LBL") _
+      BTN         = _ ("btn"/"BTN") _
       </pre>
     </ol>
     <li> <i>Expresión de arranque: </i> <br> $S = start$
