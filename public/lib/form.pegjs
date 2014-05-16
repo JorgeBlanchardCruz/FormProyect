@@ -5,6 +5,10 @@
 
 // ***** Definición de funciones 
 {
+
+  const COLPXDEF = 200, NCOLDEF= 1;
+  var icol = 0, Ncol = NCOLDEF;
+
   var css = function(w, h) {
     /*var pr = '<style type="text/css">'; 
     var po = '</style>';
@@ -50,42 +54,50 @@
   }
 
   var form_ = function (typ, lab, nam, val) {
-  	var pr, po;
+    var pi = "", pr, po = "";
 
-  	po = "</br>";
+    if(Ncol > 1){
+      pi += (icol == 0 ? "<tr>" : ""); icol++;
+      pi += "<td>";
 
-  	val = val.replace(/\"/g,'');
+      po += "</td>";
+      if (icol == Ncol){ po += "</tr>"; icol = 0; }
+    }
+    else
+      po = '</br>';
 
-  	lab = (lab ? lab : "");
+    val = val.replace(/\"/g,'');
 
-	switch(typ){
-		case "whiteline":
-			pr = '';
-			break;
+    lab = (lab ? lab : "");
 
-		case "line":
-			pr = '<hr>';
-			break;			
+  switch(typ){
+    case "whiteline":
+      pr = '</br>'; 
+      break;
 
-		case "radio":
-		case "checkbox":
-			lab = " " + lab;
-			pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
-		    break;
+    case "line":
+      pr = '<hr>';
+      break;      
 
-		case "label":
-			pr = "<pre>" + val + "</pre>";
-			break;
+    case "radio":
+    case "checkbox":
+      lab = " " + lab;
+      pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
+        break;
 
-		case "button":
-			pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
-			break;
+    case "label":
+      pr = "<pre>" + val + "</pre>";
+      break;
 
-		default:
-			pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
-	}
+    case "button":
+      pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
+      break;
 
-    return pr+po;
+    default:
+      pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
+  }
+
+    return pi+pr+po;
   }
 
   var img = function (logo, h, w, alt) {
@@ -93,9 +105,9 @@
     var po = '</div>';
     logo = logo.replace(/"\n+$"/,'');
     if (alt) {
-        pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
+      pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
     } else {
-      pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
+        pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
     }
 
     return pr+po+'<br><br>';
@@ -137,57 +149,75 @@ height        = HEIGHT n:NUMBER                 { return n; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
-						              w:whiteline    		    { return w; }
-						              / l:line      		    { return l; }
-                          / t:textbox           { return t; }
-                          / e:email             { return e; }
-                          / t:tel               { return t; }
-                          / d:date              { return d; }
-                          / r:range             { return r; }
-                          / p:password          { return p; }
-                          / c:checkbox          { return c; }
-                          / r:radiobutton       { return r; }
-                          / l:label         	  { return l; }
-                          / b:button 			      { return b; }
-                        )*
-                                                { return '<form>' + f.join('') + '</form>'; }
+                    w:whiteline       { return w; }
+                  / t:table       { return t; }
+                  / e:endtable      { return e; }
+                  / l:line            { return l; }
+                              / t:textbox           { return t; }
+                              / e:email             { return e; }
+                              / t:tel               { return t; }
+                              / d:date              { return d; }
+                              / r:range             { return r; }
+                              / p:password          { return p; }
+                              / c:checkbox          { return c; }
+                              / r:radiobutton       { return r; }
+                              / l:label           { return l; }
+                              / b:button      { return b; }
+                            )*
+                        {   
+              return '<form> '+f.join('')+' </form>'; 
+            }
 
+
+// ***** table : Inicio de la tabla, se especifica nº columnas y tamaño
+table = TABLE c:(NUMBER)? w:(NUMBER)?           {
+                                                  c = ( c ? c : NCOLDEF);
+                                                  w = ( w ? w : COLPXDEF);
+
+                                                  Ncol = c;
+                                                  icol = 0;               
+
+                                                  return '<table style="width:'+w+'px">';
+                                                }
+
+// ***** endtable : Fin de la tabla
+endtable    = ENDTABLE                           { return '</table>'; }
 
 // ***** Linea en blanco : 
-whiteline	    = WHITELINE 								          { return form_("whiteline", "", "", ""); }
+whiteline     = WHITELINE               { return form_("whiteline", "", "", ""); }
 
-// ***** LINE
-line 		      = LINE 									              { return form_("line", "", "", ""); }
+// ***** Línea horizontal
+line      = LINE                  { return form_("line", "", "", ""); }
 
 // ***** TEXTBOX : 
-textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("text", l, i, v); }
+textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("text", l, i, v); }
 
 // ***** CHECKBOX :
-checkbox      = CHX l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("checkbox", l, i, v); }
+checkbox        = CHX l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("checkbox", l, i, v); }
 
 // ***** RADIO BUTTONS :
-radiobutton   = RBT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("radio", l, i, v); }
+radiobutton     = RBT l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("radio", l, i, v); }
 
 // ***** PASSWORD :
-password      = PWD l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("password", l, i, v); }
+password        = PWD l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("password", l, i, v); }
 
 // ***** EMAIL :
-email         = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL { return form_("email", l, i, v); }
+email           = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL   { return form_("email", l, i, v); }
 
 // ***** TEL :
-tel           = TEL l:(VALUE)? i:ID ASSIGN v:TLF		{ return form_("tel", l, i, v); }
+tel             = TEL l:(VALUE)? i:ID ASSIGN v:TLF    { return form_("tel", l, i, v); }
 
 // ***** DATE :
-date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("date", l, i, v); }
+date            = DAT l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("date", l, i, v); }
 
 // ***** RANGE :
-range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE  { return form_("range", l, i, v); }
+range           = RAG l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("range", l, i, v); }
 
 // ***** LABEL :
-label         = LBL v:(VALUE)?    						      { return form_("label", "","",v); }
+label           = LBL v:(VALUE)?            { return form_("label", "","",v); }
 
 // ***** BUTTON
-button 		  = BTN l:(VALUE)? i:ID 					        { return form_("button", l, i, ""); }
+button        = BTN l:(VALUE)? i:ID           { return form_("button", l, i, ""); }
 
 
 // ***** CONST : Símbolos terminales
@@ -197,10 +227,10 @@ DOT         = _ "." _
 SEMICOLON   = _ ";" _ 
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                    { return id; }
 NUMBER      = _ digits:$[0-9]+ _                                  { return parseInt(digits, 10); } 
-PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*) (["]) _ 
+PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9áéíóú+!\/]*.[a-zA-Z_0-9]*) (["]) _ 
                                                                   { return path; }
-VALUE       = _ (["]) val:$([a-zA-Z0-9\-_ ]*) (["]) _             { return val; }
-MAIL        = _ email:$([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*) _
+VALUE       = _ (["]) val:$([a-zA-Z0-9\-_áéíóú+!. ]*) (["]) _     { return val; }
+MAIL        = _ email:$([a-zA-Z_0-9.-áéíóú+!]*[@][a-zA-Z]*.[a-zA-Z]*) _
                                                                   { return email; }
 TLF         = _ tlf:$([0-9 ]*) _                                  { return tlf; }
 
@@ -214,8 +244,10 @@ HEIGHT      = _ ("height"/"HEIGHT") _
 FORM        = _ ("form"/"FORM") _
 
 // ** Objetos del formulario
-WHITELINE	  = _ (":") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
-LINE    	  = _ ("-") _
+TABLE       = _ ("table"/"TABLE") _
+ENDTABLE    = _ ("endtable"/"ENDTABLE") _
+WHITELINE = _ (";") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
+LINE      = _ ("-") _
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _
@@ -226,8 +258,3 @@ DAT         = _ ("dat"/"DAT") _
 RAG         = _ ("rag"/"RAG") _
 LBL         = _ ("lbl"/"LBL") _
 BTN         = _ ("btn"/"BTN") _
-
-
-
-
-

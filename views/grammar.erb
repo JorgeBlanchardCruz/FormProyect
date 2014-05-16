@@ -57,7 +57,11 @@
 
       height      = HEIGHT ASSIGN NUMBER
 
-      form        = FORM (whiteline/line/textbox/email/tel/date/range/password/checkbox/radiobutton/label/button)*
+      form        = FORM (whiteline/line/table/endtable/textbox/email/tel/date/range/password/checkbox/radiobutton/label/button)*
+
+      table       = TABLE (NUMBER)? (NUMBER)?
+
+      endtable    = ENDTABLE 
 
       whiteline   = WHITELINE
 
@@ -90,9 +94,9 @@
       SEMICOLON   = _ ";" _ 
       ID          = _ ([a-zA-Z_][a-zA-Z_0-9]*) _
       NUMBER      = _ [0-9]+ _ 
-      PATH        = _ (["][\/]?[a-zA-Z0-9\/]*["]) _
-      VALUE       = _ (["][a-zA-Z]*["]) _ 
-      MAIL        = _ ([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*)_
+      PATH        = _ (["][\/]?[a-zA-Z0-9áéíóú+!\/]*.[a-zA-Z_0-9]*["]) _
+      VALUE       = _ (["][a-zA-Z0-9\-_áéíóú+!. ]*["]) _ 
+      MAIL        = _ ([a-zA-Z_0-9.-áéíóú+!]*[@][a-zA-Z]*.[a-zA-Z]*)_
       TLF         = _ ([0-9 ]*) _
 
       BEGIN       = _ ("begin"/"BEGIN") _
@@ -106,6 +110,8 @@
 
       WHITELINE   = _ (":") _
       LINE        = _ ("-") _
+      TABLE       = _ ("table"/"TABLE") _
+      ENDTABLE    = _ ("endtable"/"ENDTABLE") _
       TXT         = _ ("txt"/"TXT") _
       CHX         = _ ("chx"/"CHX") _
       RBT         = _ ("rbt"/"RBT") _
