@@ -6,8 +6,8 @@
 // ***** Definición de funciones 
 {
 
-  const COLPXDEF = 200, NCOLDEF= 1;
-  var icol = 0, Ncol = NCOLDEF;
+  const COLPXDEF = 200, NCOLDEF = 1;
+  var icol = 0, Ncol = NCOLDEF, CreatingTable = false;
 
   var css = function(w, h) {
     /*var pr = '<style type="text/css">'; 
@@ -149,42 +149,44 @@ height        = HEIGHT n:NUMBER                 { return n; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
-                          i:item                { return i; }
-                          / t:table             { return t; }
-                        )*
-                          {  return '<form> ' + f.join('') + ' </form>'; }
+								    w:whiteline    		{ return w; }
+								  / t:table 			{ return t; }
+								  / e:endtable 			{ return e; }
+								  / l:line    		    { return l; }
+		                          / t:textbox           { return t; }
+		                          / e:email             { return e; }
+		                          / t:tel               { return t; }
+		                          / d:date              { return d; }
+		                          / r:range             { return r; }
+		                          / p:password          { return p; }
+		                          / c:checkbox          { return c; }
+		                          / r:radiobutton       { return r; }
+		                          / l:label         	{ return l; }
+		                          / b:button 			{ return b; }
+		                        )*
+                        { 	
+							var endtable = (CreatingTable ? ' </table>' : '');
+							return '<form> '+f.join('')+endtable+' </form>'; 
+						}
 
-// ***** table : Inicio de la tabla, se especifica nº columnas y tamaño
-table = TABLE c:(NUMBER)? w:(NUMBER)? i:(item)+ e:endtable  
-                                                {
-                                                  c = ( c ? c : NCOLDEF);
-                                                  w = ( w ? w : COLPXDEF);
 
-                                                  Ncol = c;
-                                                  icol = 0;               
+table = TABLE c:(NUMBER)? w:(NUMBER)? 					{
+															c = ( c ? c : NCOLDEF);
+								                        	w = ( w ? w : COLPXDEF);
 
-                                                  return '<table style="width:'+w+'px">' + i.join('') + e; 
-                                                }
+															Ncol = c;
+								                        	icol = 0;  
+								                        	CreatingTable = true;           	
 
-// ***** item : elementos que componen el form
-item        =         i:(
-                          w:whiteline           { return w; }
-                          / l:line              { return l; }
-                          / t:textbox           { return t; }
-                          / e:email             { return e; }
-                          / t:tel               { return t; }
-                          / d:date              { return d; }
-                          / r:range             { return r; }
-                          / p:password          { return p; }
-                          / c:checkbox          { return c; }
-                          / r:radiobutton       { return r; }
-                          / l:label             { return l; }
-                          / b:button            { return b; }
-                        )
-                                                { return i; }
+								                        	return '<table style="width:'+w+'px">';
+														}
 
-// ***** endtable : Fin de la tabla
-endtable    = ENDTABLE                           { return '</table>'; }
+endtable 		= ENDTABLE 								{ 	
+															var out = (CreatingTable ? '</table>' : '');
+															CreatingTable = false;
+
+															return out; 
+														}
 
 // ***** Linea en blanco : 
 whiteline     = WHITELINE               { return form_("whiteline", "", "", ""); }
