@@ -62,20 +62,6 @@ form = (function() {
         peg$c14 = function(p) { return p; },
         peg$c15 = function(c) { return c; },
         peg$c16 = function(b) { return b; },
-<<<<<<< HEAD
-        peg$c17 = function(f) { 	
-        							return '<form> '+f.join('')+' </form>'; 
-        						},
-        peg$c18 = function(c, w) {
-        															c = ( c ? c : NCOLDEF);
-        								                        	w = ( w ? w : COLPXDEF);
-
-        															Ncol = c;
-        								                        	icol = 0;             	
-
-        								                        	return '<table style="width:'+w+'px">';
-        														},
-=======
         peg$c17 = function(f) {   
                       return '<form> '+f.join('')+' </form>'; 
                     },
@@ -88,7 +74,6 @@ form = (function() {
 
                                                           return '<table style="width:'+w+'px">';
                                                         },
->>>>>>> origin/dev_MDBG
         peg$c19 = function() { return '</table>'; },
         peg$c20 = function() { return form_("whiteline", "", "", ""); },
         peg$c21 = function() { return form_("line", "", "", ""); },
@@ -2980,25 +2965,11 @@ form = (function() {
       }
 
       var form_ = function (typ, lab, nam, val) {
-<<<<<<< HEAD
-      	var pi = "", pr, po = "";
-
-      	if(Ncol > 1){
-      		pi += (icol == 0 ? "<tr>" : ""); icol++;
-      		pi += "<td>";
-
-      		po += "</td>";
-      		if (icol == Ncol){ po += "</tr>"; icol = 0; }
-      	}
-      	else
-      		po = '</br>';
-=======
         var pi = "", pr, po = "";
 
         if(Ncol > 1){
           pi += (icol == 0 ? "<tr>" : ""); icol++;
           pi += "<td>";
->>>>>>> origin/dev_MDBG
 
           po += "</td>";
           if (icol == Ncol){ po += "</tr>"; icol = 0; }
@@ -3010,17 +2981,10 @@ form = (function() {
 
         lab = (lab ? lab : "");
 
-<<<<<<< HEAD
-    	switch(typ){
-    		case "whiteline":
-    			pr = '</br>'; 
-    			break;
-=======
       switch(typ){
         case "whiteline":
           pr = '</br>'; 
           break;
->>>>>>> origin/dev_MDBG
 
         case "line":
           pr = '<hr>';
@@ -3052,15 +3016,9 @@ form = (function() {
         var po = '</div>';
         logo = logo.replace(/"\n+$"/,'');
         if (alt) {
-<<<<<<< HEAD
-        	pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
-        } else {
-          	pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
-=======
           pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
         } else {
             pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
->>>>>>> origin/dev_MDBG
         }
 
         return pr+po+'<br><br>';
