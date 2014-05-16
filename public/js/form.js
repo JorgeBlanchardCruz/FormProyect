@@ -62,6 +62,7 @@ form = (function() {
         peg$c14 = function(p) { return p; },
         peg$c15 = function(c) { return c; },
         peg$c16 = function(b) { return b; },
+<<<<<<< HEAD
         peg$c17 = function(f) { 	
         							return '<form> '+f.join('')+' </form>'; 
         						},
@@ -74,6 +75,20 @@ form = (function() {
 
         								                        	return '<table style="width:'+w+'px">';
         														},
+=======
+        peg$c17 = function(f) {   
+                      return '<form> '+f.join('')+' </form>'; 
+                    },
+        peg$c18 = function(c, w) {
+                                                          c = ( c ? c : NCOLDEF);
+                                                          w = ( w ? w : COLPXDEF);
+
+                                                          Ncol = c;
+                                                          icol = 0;               
+
+                                                          return '<table style="width:'+w+'px">';
+                                                        },
+>>>>>>> origin/dev_MDBG
         peg$c19 = function() { return '</table>'; },
         peg$c20 = function() { return form_("whiteline", "", "", ""); },
         peg$c21 = function() { return form_("line", "", "", ""); },
@@ -2965,6 +2980,7 @@ form = (function() {
       }
 
       var form_ = function (typ, lab, nam, val) {
+<<<<<<< HEAD
       	var pi = "", pr, po = "";
 
       	if(Ncol > 1){
@@ -2976,37 +2992,57 @@ form = (function() {
       	}
       	else
       		po = '</br>';
+=======
+        var pi = "", pr, po = "";
 
-      	val = val.replace(/\"/g,'');
+        if(Ncol > 1){
+          pi += (icol == 0 ? "<tr>" : ""); icol++;
+          pi += "<td>";
+>>>>>>> origin/dev_MDBG
 
-      	lab = (lab ? lab : "");
+          po += "</td>";
+          if (icol == Ncol){ po += "</tr>"; icol = 0; }
+        }
+        else
+          po = '</br>';
 
+        val = val.replace(/\"/g,'');
+
+        lab = (lab ? lab : "");
+
+<<<<<<< HEAD
     	switch(typ){
     		case "whiteline":
     			pr = '</br>'; 
     			break;
+=======
+      switch(typ){
+        case "whiteline":
+          pr = '</br>'; 
+          break;
+>>>>>>> origin/dev_MDBG
 
-    		case "line":
-    			pr = '<hr>';
-    			break;			
+        case "line":
+          pr = '<hr>';
+          break;      
 
-    		case "radio":
-    		case "checkbox":
-    			lab = " " + lab;
-    			pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
-    		    break;
+        case "radio":
+        case "checkbox":
+          lab = " " + lab;
+          pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
+            break;
 
-    		case "label":
-    			pr = "<pre>" + val + "</pre>";
-    			break;
+        case "label":
+          pr = "<pre>" + val + "</pre>";
+          break;
 
-    		case "button":
-    			pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
-    			break;
+        case "button":
+          pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
+          break;
 
-    		default:
-    			pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
-    	}
+        default:
+          pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
+      }
 
         return pi+pr+po;
       }
@@ -3016,9 +3052,15 @@ form = (function() {
         var po = '</div>';
         logo = logo.replace(/"\n+$"/,'');
         if (alt) {
+<<<<<<< HEAD
         	pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
         } else {
           	pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
+=======
+          pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
+        } else {
+            pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
+>>>>>>> origin/dev_MDBG
         }
 
         return pr+po+'<br><br>';

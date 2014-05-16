@@ -57,6 +57,8 @@ height        = HEIGHT n:NUMBER                 { return {type: 'HEIGHT', value:
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
                           w:whiteline           { return w; }
+                          / t:table             { return t; }
+                          / e:endtable          { return e; }
                           / l:line              { return l; }
                           / t:textbox           { return t; }
                           / e:email             { return e; }
@@ -70,6 +72,12 @@ form          = FORM f:(
                           / b:button            { return b; }
                         )*
                                                 { return {type: 'FORM', value: f}; }
+
+// ***** table : Inicio de la tabla, se especifica nº columnas y tamaño
+table = TABLE c:(NUMBER)? w:(NUMBER)?               { return {type: 'TABLE', col: c, widht: w}; }
+
+// ***** endtable : Fin de la tabla
+endtable    = ENDTABLE                              { return {type: 'ENDTABLE'}; }
 
 // ***** Linea en blanco : 
 whiteline     = WHITELINE                           { return {type: 'WHITELINE'}; }

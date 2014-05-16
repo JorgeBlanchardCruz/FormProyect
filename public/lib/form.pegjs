@@ -54,6 +54,7 @@
   }
 
   var form_ = function (typ, lab, nam, val) {
+<<<<<<< HEAD
   	var pi = "", pr, po = "";
 
   	if(Ncol > 1){
@@ -65,37 +66,57 @@
   	}
   	else
   		po = '</br>';
+=======
+    var pi = "", pr, po = "";
 
-  	val = val.replace(/\"/g,'');
+    if(Ncol > 1){
+      pi += (icol == 0 ? "<tr>" : ""); icol++;
+      pi += "<td>";
 
-  	lab = (lab ? lab : "");
+      po += "</td>";
+      if (icol == Ncol){ po += "</tr>"; icol = 0; }
+    }
+    else
+      po = '</br>';
+>>>>>>> dev_MDBG
 
+    val = val.replace(/\"/g,'');
+
+    lab = (lab ? lab : "");
+
+<<<<<<< HEAD
 	switch(typ){
 		case "whiteline":
 			pr = '</br>'; 
 			break;
+=======
+  switch(typ){
+    case "whiteline":
+      pr = '</br>'; 
+      break;
+>>>>>>> dev_MDBG
 
-		case "line":
-			pr = '<hr>';
-			break;			
+    case "line":
+      pr = '<hr>';
+      break;      
 
-		case "radio":
-		case "checkbox":
-			lab = " " + lab;
-			pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
-		    break;
+    case "radio":
+    case "checkbox":
+      lab = " " + lab;
+      pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
+        break;
 
-		case "label":
-			pr = "<pre>" + val + "</pre>";
-			break;
+    case "label":
+      pr = "<pre>" + val + "</pre>";
+      break;
 
-		case "button":
-			pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
-			break;
+    case "button":
+      pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
+      break;
 
-		default:
-			pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
-	}
+    default:
+      pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
+  }
 
     return pi+pr+po;
   }
@@ -105,9 +126,15 @@
     var po = '</div>';
     logo = logo.replace(/"\n+$"/,'');
     if (alt) {
+<<<<<<< HEAD
     	pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
     } else {
       	pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
+=======
+      pr += "<img src='"+logo+"' alt='"+alt+"' height='"+h+"' width='"+w+"'>";
+    } else {
+        pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
+>>>>>>> dev_MDBG
     }
 
     return pr+po+'<br><br>';
@@ -149,6 +176,7 @@ height        = HEIGHT n:NUMBER                 { return n; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
+<<<<<<< HEAD
 								    w:whiteline    		{ return w; }
 								  / t:table 			{ return t; }
 								  / e:endtable 			{ return e; }
@@ -217,6 +245,77 @@ label         	= LBL v:(VALUE)?						{ return form_("label", "","",v); }
 
 // ***** BUTTON
 button 		  	= BTN l:(VALUE)? i:ID 					{ return form_("button", l, i, ""); }
+=======
+                    w:whiteline       { return w; }
+                  / t:table       { return t; }
+                  / e:endtable      { return e; }
+                  / l:line            { return l; }
+                              / t:textbox           { return t; }
+                              / e:email             { return e; }
+                              / t:tel               { return t; }
+                              / d:date              { return d; }
+                              / r:range             { return r; }
+                              / p:password          { return p; }
+                              / c:checkbox          { return c; }
+                              / r:radiobutton       { return r; }
+                              / l:label           { return l; }
+                              / b:button      { return b; }
+                            )*
+                        {   
+              return '<form> '+f.join('')+' </form>'; 
+            }
+
+
+// ***** table : Inicio de la tabla, se especifica nº columnas y tamaño
+table = TABLE c:(NUMBER)? w:(NUMBER)?           {
+                                                  c = ( c ? c : NCOLDEF);
+                                                  w = ( w ? w : COLPXDEF);
+
+                                                  Ncol = c;
+                                                  icol = 0;               
+
+                                                  return '<table style="width:'+w+'px">';
+                                                }
+
+// ***** endtable : Fin de la tabla
+endtable    = ENDTABLE                           { return '</table>'; }
+
+// ***** Linea en blanco : 
+whiteline     = WHITELINE               { return form_("whiteline", "", "", ""); }
+
+// ***** Línea horizontal
+line      = LINE                  { return form_("line", "", "", ""); }
+
+// ***** TEXTBOX : 
+textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("text", l, i, v); }
+
+// ***** CHECKBOX :
+checkbox        = CHX l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("checkbox", l, i, v); }
+
+// ***** RADIO BUTTONS :
+radiobutton     = RBT l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("radio", l, i, v); }
+
+// ***** PASSWORD :
+password        = PWD l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("password", l, i, v); }
+
+// ***** EMAIL :
+email           = EMAIL l:(VALUE)? i:ID ASSIGN v:MAIL   { return form_("email", l, i, v); }
+
+// ***** TEL :
+tel             = TEL l:(VALUE)? i:ID ASSIGN v:TLF    { return form_("tel", l, i, v); }
+
+// ***** DATE :
+date            = DAT l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("date", l, i, v); }
+
+// ***** RANGE :
+range           = RAG l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("range", l, i, v); }
+
+// ***** LABEL :
+label           = LBL v:(VALUE)?            { return form_("label", "","",v); }
+
+// ***** BUTTON
+button        = BTN l:(VALUE)? i:ID           { return form_("button", l, i, ""); }
+>>>>>>> dev_MDBG
 
 
 // ***** CONST : Símbolos terminales
@@ -245,8 +344,13 @@ FORM        = _ ("form"/"FORM") _
 // ** Objetos del formulario
 TABLE       = _ ("table"/"TABLE") _
 ENDTABLE    = _ ("endtable"/"ENDTABLE") _
+<<<<<<< HEAD
 WHITELINE	= _ (";") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
 LINE    	= _ ("-") _
+=======
+WHITELINE = _ (";") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
+LINE      = _ ("-") _
+>>>>>>> dev_MDBG
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _
