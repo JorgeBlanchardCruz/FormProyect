@@ -12,19 +12,19 @@
 }
 /* ESTILO PARA LA PRESENTACIÓN DE LA GRAMÁTICA */
 .grammar {
-  background-color: #7f674c;
-  width: 1070;
+  background-color: #6aa78c;
+  width: 1500;
   border-radius: 7px;
-  color: #e5b98a;
+  color: #003c49;
   padding: 20px; }
 /* ESTILO DE LA TABLA loadfile */
 table.loadfile {
   border-collapse: separate;
   border-spacing: 35px 15px;
-  background-color: #7f674c;
-  width: 1110px;
+  background-color: #6aa78c;
+  width: 1500px;
   border-radius: 7px;
-  color: #e5b98a;
+  color: #003c49;
   table-layout: fixed; }
   table.loadfile td.save {
     width: 250px; }
