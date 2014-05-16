@@ -226,10 +226,10 @@ DOT         = _ "." _
 SEMICOLON   = _ ";" _ 
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                    { return id; }
 NUMBER      = _ digits:$[0-9]+ _                                  { return parseInt(digits, 10); } 
-PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*) (["]) _ 
+PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9áéíóú+!\/]*.[a-zA-Z_0-9]*) (["]) _ 
                                                                   { return path; }
-VALUE       = _ (["]) val:$([a-zA-Z0-9\-_ ]*) (["]) _             { return val; }
-MAIL        = _ email:$([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*) _
+VALUE       = _ (["]) val:$([a-zA-Z0-9\-_áéíóú+!. ]*) (["]) _     { return val; }
+MAIL        = _ email:$([a-zA-Z_0-9.-áéíóú+!]*[@][a-zA-Z]*.[a-zA-Z]*) _
                                                                   { return email; }
 TLF         = _ tlf:$([0-9 ]*) _                                  { return tlf; }
 

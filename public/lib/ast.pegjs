@@ -114,10 +114,10 @@ DOT         = _ "." _
 SEMICOLON   = _ ";" _ 
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                    { return id; }
 NUMBER      = _ digits:$[0-9]+ _                                  { return parseInt(digits, 10); } 
-PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9\/]*.[a-zA-Z_0-9]*) (["]) _ 
+PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9áéíóú+!\/]*.[a-zA-Z_0-9]*) (["]) _ 
                                                                   { return path; }
-VALUE       = _ (["]) val:$([a-zA-Z0-9\-_ ]*) (["]) _             { return val; }
-MAIL        = _ email:$([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*) _
+VALUE       = _ (["]) val:$([a-zA-Z0-9\-_áéíóú+!. ]*) (["]) _     { return val; }
+MAIL        = _ email:$([a-zA-Z_0-9.-áéíóú+!]*[@][a-zA-Z]*.[a-zA-Z]*) _
                                                                   { return email; }
 TLF         = _ tlf:$([0-9 ]*) _                                  { return tlf; }
 
@@ -131,8 +131,10 @@ HEIGHT      = _ ("height"/"HEIGHT") _
 FORM        = _ ("form"/"FORM") _
 
 // ** Objetos del formulario
-WHITELINE   = _ (":") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
-LINE        = _ ("-") _
+TABLE       = _ ("table"/"TABLE") _
+ENDTABLE    = _ ("endtable"/"ENDTABLE") _
+WHITELINE = _ (";") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
+LINE      = _ ("-") _
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _

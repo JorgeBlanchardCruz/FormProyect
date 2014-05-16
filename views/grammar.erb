@@ -90,9 +90,9 @@
       SEMICOLON   = _ ";" _ 
       ID          = _ ([a-zA-Z_][a-zA-Z_0-9]*) _
       NUMBER      = _ [0-9]+ _ 
-      PATH        = _ (["][\/]?[a-zA-Z0-9\/]*["]) _
-      VALUE       = _ (["][a-zA-Z]*["]) _ 
-      MAIL        = _ ([a-zA-Z_0-9.-]*[@][a-zA-Z]*.[a-zA-Z]*)_
+      PATH        = _ (["][\/]?[a-zA-Z0-9áéíóú+!\/]*.[a-zA-Z_0-9]*["]) _
+      VALUE       = _ (["][a-zA-Z0-9\-_áéíóú+!. ]*["]) _ 
+      MAIL        = _ ([a-zA-Z_0-9.-áéíóú+!]*[@][a-zA-Z]*.[a-zA-Z]*)_
       TLF         = _ ([0-9 ]*) _
 
       BEGIN       = _ ("begin"/"BEGIN") _
