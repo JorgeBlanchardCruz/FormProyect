@@ -62,11 +62,16 @@ get '/:selected?' do |selected|
     \n\t\twidth 25
     \n\t\theight 25
     \n\n\tform\n\t\t
+    \n\tlbl \"Inicio\"
     \n\ttable 2 30
     \n\t\ttxt \"etiqueta\" ident = \"valor por defecto\";
+    \n\t\t;;
     \n\t\tRBT \"seleccione1\" radio1 = \"\" 
-    \n\t\tRBT \"seleccione2\" radio1 = \"\" 
-    \n\tendtable 
+    \n\t\tRBT \"seleccione2\" radio1 = \"\"
+    \n\t\t;; 
+    \n\t\tcbx idcombo = \"val1\" \"val2\" \"val3\" \"val4\"; 
+    \n\tendtable;
+    \n\tlbl \"Fin\"
     \nend." end
   erb :index, 
       :locals => {  :programs => programs, :users => users, :source => source, 

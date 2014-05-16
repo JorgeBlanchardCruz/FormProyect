@@ -66,36 +66,41 @@
     else
       po = '</br>';
 
-    val = val.replace(/\"/g,'');
+  	if(typ != "combobox")
+    	val = val.replace(/\"/g,'');
 
     lab = (lab ? lab : "");
 
-  switch(typ){
-    case "whiteline":
-      pr = '</br>'; 
-      break;
+	  switch(typ){
+	    case "whiteline":
+	      pr = '</br>'; 
+	      break;
 
-    case "line":
-      pr = '<hr>';
-      break;      
+	    case "line":
+	      pr = '<hr>';
+	      break;      
 
-    case "radio":
-    case "checkbox":
-      lab = " " + lab;
-      pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
-        break;
+	    case "radio":
+	    case "checkbox":
+	      lab = " " + lab;
+	      pr = "<input type="+typ+" name="+nam+" value='"+val+"'>"+lab;
+	        break;
 
-    case "label":
-      pr = "<pre>" + val + "</pre>";
-      break;
+	    case "label":
+	      pr = "<pre>" + val + "</pre>";
+	      break;
 
-    case "button":
-      pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
-      break;
+	    case "button":
+	      pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
+	      break;
 
-    default:
-      pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
-  }
+	    case "combobox":
+	      pr = '<select id ='+nam+'> '+val+'</select>'
+	      break
+
+	    default:
+	      pr = lab+" <input type='"+typ+"' name='"+nam+"' placeholder='"+val+"'>";
+	  }
 
     return pi+pr+po;
   }
@@ -163,6 +168,7 @@ form          = FORM f:(
 		                          / r:radiobutton       { return r; }
 		                          / l:label         	{ return l; }
 		                          / b:button 			{ return b; }
+		                          / c:combobox          { return c; }
 		                        )*
                         { 	
 							var endtable = (CreatingTable ? ' </table>' : '');
@@ -219,16 +225,21 @@ date            = DAT l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("date", l
 range           = RAG l:(VALUE)? i:ID ASSIGN v:VALUE    { return form_("range", l, i, v); }
 
 // ***** LABEL :
-label           = LBL v:(VALUE)?            { return form_("label", "","",v); }
+label           = v:VALUE            { return form_("label", "","",v); }
 
 // ***** BUTTON
-button        = BTN l:(VALUE)? i:ID           { return form_("button", l, i, ""); }
+button          = BTN l:(VALUE)? i:ID           { return form_("button", l, i, ""); }
+
+// ***** COMBOBOX
+combobox        = CBX i:ID ASSIGN ci:(combobox_item)+       { return form_("combobox", "", i, ci);}
+combobox_item   = v:VALUE                                   { return '<option value="'+v+'">'+v+'</option> \n'; }
 
 
 // ***** CONST : Símbolos terminales
 _           = $[ \t\n\r]*
 ASSIGN      = _ '=' _          
 DOT         = _ "." _
+COMMA       = _ "," _
 SEMICOLON   = _ ";" _ 
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                    { return id; }
 NUMBER      = _ digits:$[0-9]+ _                                  { return parseInt(digits, 10); } 
@@ -263,3 +274,4 @@ DAT         = _ ("dat"/"DAT") _
 RAG         = _ ("rag"/"RAG") _
 LBL         = _ ("lbl"/"LBL") _
 BTN         = _ ("btn"/"BTN") _
+CBX         = _ ("cbx"/"CBX") _
