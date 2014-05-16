@@ -57,9 +57,11 @@
 
       height      = HEIGHT ASSIGN NUMBER
 
-      form        = FORM (whiteline/line/table/endtable/textbox/email/tel/date/range/password/checkbox/radiobutton/label/button)*
+      form        = FORM (table/item)*
 
-      table       = TABLE (NUMBER)? (NUMBER)?
+      table       = TABLE (NUMBER)? (NUMBER)? (item)+ endtable
+
+      item        = (whiteline/line/textbox/email/tel/date/range/password/checkbox/radiobutton/label/button)
 
       endtable    = ENDTABLE 
 

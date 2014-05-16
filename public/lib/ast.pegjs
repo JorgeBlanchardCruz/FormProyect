@@ -56,9 +56,18 @@ height        = HEIGHT n:NUMBER                 { return {type: 'HEIGHT', value:
 
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
-                          w:whiteline           { return w; }
+                          i:item                { return i; }
                           / t:table             { return t; }
-                          / e:endtable          { return e; }
+                        )*
+                                                { return {type: 'FORM', value: f}; }
+
+// ***** table : Inicio de la tabla, se especifica nº columnas y tamaño
+table = TABLE c:(NUMBER)? w:(NUMBER)? i:(item)+ e:endtable                
+                                                    { return {type: 'TABLE', col: c, widht: w, item: i}; }
+
+// ***** item : elementos que componen el form
+item        =         i:(
+                          w:whiteline           { return w; }
                           / l:line              { return l; }
                           / t:textbox           { return t; }
                           / e:email             { return e; }
@@ -70,11 +79,8 @@ form          = FORM f:(
                           / r:radiobutton       { return r; }
                           / l:label             { return l; }
                           / b:button            { return b; }
-                        )*
-                                                { return {type: 'FORM', value: f}; }
-
-// ***** table : Inicio de la tabla, se especifica nº columnas y tamaño
-table = TABLE c:(NUMBER)? w:(NUMBER)?               { return {type: 'TABLE', col: c, widht: w}; }
+                        )
+                                                { return i; }
 
 // ***** endtable : Fin de la tabla
 endtable    = ENDTABLE                              { return {type: 'ENDTABLE'}; }

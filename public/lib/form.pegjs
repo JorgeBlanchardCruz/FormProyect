@@ -149,36 +149,39 @@ height        = HEIGHT n:NUMBER                 { return n; }
 
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
-                    w:whiteline       { return w; }
-                  / t:table       { return t; }
-                  / e:endtable      { return e; }
-                  / l:line            { return l; }
-                              / t:textbox           { return t; }
-                              / e:email             { return e; }
-                              / t:tel               { return t; }
-                              / d:date              { return d; }
-                              / r:range             { return r; }
-                              / p:password          { return p; }
-                              / c:checkbox          { return c; }
-                              / r:radiobutton       { return r; }
-                              / l:label           { return l; }
-                              / b:button      { return b; }
-                            )*
-                        {   
-              return '<form> '+f.join('')+' </form>'; 
-            }
-
+                          i:item                { return i; }
+                          / t:table             { return t; }
+                        )*
+                          {  return '<form> ' + f.join('') + ' </form>'; }
 
 // ***** table : Inicio de la tabla, se especifica nº columnas y tamaño
-table = TABLE c:(NUMBER)? w:(NUMBER)?           {
+table = TABLE c:(NUMBER)? w:(NUMBER)? i:(item)+ e:endtable  
+                                                {
                                                   c = ( c ? c : NCOLDEF);
                                                   w = ( w ? w : COLPXDEF);
 
                                                   Ncol = c;
                                                   icol = 0;               
 
-                                                  return '<table style="width:'+w+'px">';
+                                                  return '<table style="width:'+w+'px">' + i.join('') + e; 
                                                 }
+
+// ***** item : elementos que componen el form
+item        =         i:(
+                          w:whiteline           { return w; }
+                          / l:line              { return l; }
+                          / t:textbox           { return t; }
+                          / e:email             { return e; }
+                          / t:tel               { return t; }
+                          / d:date              { return d; }
+                          / r:range             { return r; }
+                          / p:password          { return p; }
+                          / c:checkbox          { return c; }
+                          / r:radiobutton       { return r; }
+                          / l:label             { return l; }
+                          / b:button            { return b; }
+                        )
+                                                { return i; }
 
 // ***** endtable : Fin de la tabla
 endtable    = ENDTABLE                           { return '</table>'; }

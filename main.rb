@@ -55,10 +55,19 @@ get '/:selected?' do |selected|
   img = session[:image]
   url = session[:url]
   email = session[:email]
-  source = if c then c.source else "begin \n\thead Formulario\n\toptions
-    \n\t\tlogo \"img/github.png\"\n\t\twidth 25\n\t\theight 25\n\n\tform\n\t\t
-    txt \"etiqueta\" ident = \"valor por defecto\";\n\t
-    RBT \"seleccione1\" radio1 = \"\" \n\tRBT \"seleccione2\" radio1 = \"\" \nend." end
+  source = if c then c.source else "begin 
+    \n\thead Formulario
+    \n\toptions
+    \n\t\tlogo \"img/github.png\"
+    \n\t\twidth 25
+    \n\t\theight 25
+    \n\n\tform\n\t\t
+    \n\ttable 2 30
+    \n\t\ttxt \"etiqueta\" ident = \"valor por defecto\";
+    \n\t\tRBT \"seleccione1\" radio1 = \"\" 
+    \n\t\tRBT \"seleccione2\" radio1 = \"\" 
+    \n\tendtable 
+    \nend." end
   erb :index, 
       :locals => {  :programs => programs, :users => users, :source => source, 
                     :user => user, :img => img, :url => url, :email => email }
