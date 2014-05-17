@@ -10,21 +10,30 @@
 .almendra {
   font-family: almendra;
 }
+
+.imgIzq {
+float:left;
+background-position:top left;
+background-repeat:no-repeat;
+width:150px;
+height:150px;
+}
+
 /* ESTILO PARA LA PRESENTACIÓN DE LA GRAMÁTICA */
 .grammar {
-  background-color: #6aa78c;
+  background-color: #375524;
   width: 1500;
   border-radius: 7px;
-  color: #003c49;
+  color: #e6f0d6;
   padding: 20px; }
 /* ESTILO DE LA TABLA loadfile */
 table.loadfile {
   border-collapse: separate;
   border-spacing: 35px 15px;
-  background-color: #6aa78c;
+  background-color: #375524;
   width: 1500px;
   border-radius: 7px;
-  color: #003c49;
+  color: #e6f0d6;
   table-layout: fixed; }
   table.loadfile td.save {
     width: 250px; }
@@ -327,13 +336,15 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
-  background-color: #ffffff;
+  background-color: #abc6d9;
+  background-repeat:no-repeat;
   /* Modificado */
   min-width: 450px;
   max-width: 1110px;
   margin: 0 auto;
   color: black;
   background-image: url("../img/fondo1.jpg");
+
 }
 
 a {

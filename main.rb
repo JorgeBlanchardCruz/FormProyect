@@ -69,7 +69,7 @@ get '/:selected?' do |selected|
     \n\t\tRBT \"seleccione1\" radio1 = \"\" 
     \n\t\tRBT \"seleccione2\" radio1 = \"\"
     \n\t\t;; 
-    \n\t\tcbx idcombo = \"val1\" \"val2\" \"val3\" \"val4\"; 
+    \n\t\tcbx idcombo = \"val1\" ,\"val2\" ,\"val3\" ,\"val4\"; 
     \n\tendtable;
     \n\t\"Fin\"
     \nend." end
