@@ -21,7 +21,7 @@ height:150px;
 
 /* ESTILO PARA LA PRESENTACIÓN DE LA GRAMÁTICA */
 .grammar {
-  background-color: #375524;
+  background-color: #558337;
   width: 1500;
   border-radius: 7px;
   color: #e6f0d6;
@@ -30,7 +30,7 @@ height:150px;
 table.loadfile {
   border-collapse: separate;
   border-spacing: 35px 15px;
-  background-color: #375524;
+  background-color: #558337;
   width: 1500px;
   border-radius: 7px;
   color: #e6f0d6;
