@@ -231,8 +231,8 @@ label           = v:VALUE            { return form_("label", "","",v); }
 button          = BTN l:(VALUE)? i:ID           { return form_("button", l, i, ""); }
 
 // ***** COMBOBOX
-combobox        = CBX i:ID ASSIGN ci:(combobox_item)+       { return form_("combobox", "", i, ci);}
-combobox_item   = v:VALUE                                   { return '<option value="'+v+'">'+v+'</option> \n'; }
+combobox        = CBX i:ID ASSIGN ci:(combobox_item (COMMA combobox_item)*) { return form_("combobox", "", i, ci);}
+combobox_item   = v:VALUE                                   				{ return '<option value="'+v+'">'+v+'</option> \n'; }
 
 
 // ***** CONST : Símbolos terminales

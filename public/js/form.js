@@ -1363,7 +1363,7 @@ form = (function() {
     }
 
     function peg$parsecombobox() {
-      var s0, s1, s2, s3, s4, s5;
+      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9;
 
       s0 = peg$currPos;
       s1 = peg$parseCBX();
@@ -1372,14 +1372,52 @@ form = (function() {
         if (s2 !== peg$FAILED) {
           s3 = peg$parseASSIGN();
           if (s3 !== peg$FAILED) {
-            s4 = [];
+            s4 = peg$currPos;
             s5 = peg$parsecombobox_item();
             if (s5 !== peg$FAILED) {
-              while (s5 !== peg$FAILED) {
-                s4.push(s5);
-                s5 = peg$parsecombobox_item();
+              s6 = [];
+              s7 = peg$currPos;
+              s8 = peg$parseCOMMA();
+              if (s8 !== peg$FAILED) {
+                s9 = peg$parsecombobox_item();
+                if (s9 !== peg$FAILED) {
+                  s8 = [s8, s9];
+                  s7 = s8;
+                } else {
+                  peg$currPos = s7;
+                  s7 = peg$c0;
+                }
+              } else {
+                peg$currPos = s7;
+                s7 = peg$c0;
+              }
+              while (s7 !== peg$FAILED) {
+                s6.push(s7);
+                s7 = peg$currPos;
+                s8 = peg$parseCOMMA();
+                if (s8 !== peg$FAILED) {
+                  s9 = peg$parsecombobox_item();
+                  if (s9 !== peg$FAILED) {
+                    s8 = [s8, s9];
+                    s7 = s8;
+                  } else {
+                    peg$currPos = s7;
+                    s7 = peg$c0;
+                  }
+                } else {
+                  peg$currPos = s7;
+                  s7 = peg$c0;
+                }
+              }
+              if (s6 !== peg$FAILED) {
+                s5 = [s5, s6];
+                s4 = s5;
+              } else {
+                peg$currPos = s4;
+                s4 = peg$c0;
               }
             } else {
+              peg$currPos = s4;
               s4 = peg$c0;
             }
             if (s4 !== peg$FAILED) {
