@@ -112,9 +112,131 @@ suite('AST', function() {
       
       assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
    });
+   test('Error', function() {
+      var source = 'begin end.';
+      var result = ast.parse(source);
+      
+      assert.match (JSON.stringify(result,undefined,2), /SyntaxError/)
+   });
 });
 
+//******************************************************************************************
 suite('HTML', function() {
    test('Cabecero AST', function() {
+      var esperado = '';
+      var source = 'begin head Formulario form end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Cabecero con opciones AST', function() {
+      var esperado = '';
+      var source = 'begin head Formulario options logo "img/github.png" width 25 height 25 form end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Linea en Blanco', function() {
+      var esperado = '';
+      var source = 'begin form ;; end.';
+      var result = form.parse(source);
+         
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+/*
+   test('Linea', function() {
+      var esperado = '';
+      var source = 'begin form LINE ; end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+*/
+   test('Textbox', function() {
+      var esperado = '';
+      var source = 'begin form txt "etiqueta" ident = "valor por defecto"; end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+/*
+   test('E-mail', function() {
+      var esperado = '';
+      var source = 'begin form email "gonzalo" correo = "user@gmail.com"; end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+*/
+   test('Telefono', function() {
+      var esperado = '';
+      var source = 'begin form TEL "Telefono" telefono = 123456789 end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+/*
+   test('Fecha', function() {
+      var esperado = '';
+      var source = '';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+*/
+   test('Rango', function() {
+      var esperado = '';
+      var source = 'begin form RAG rango = "100" end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Contraseña', function() {
+      var esperado = '';
+      var source = 'begin form PWD password = "gonzalo" end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Checkbox', function() {
+      var esperado = '';
+      var source = 'begin form CHX "coche"  vehiculo = "coche" CHX "Bicicleta"  vehiculo = "Bicicleta" end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Radiobutton', function() {
+      var esperado = '';
+      var source = 'begin form RBT "masculino" sexo = "" RBT "femenino" sexo = "" end.';
+      var result = form.parse(source);
+         
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Etiqueta', function() {
+      var esperado = '';
+      var source = 'begin form LBL "Esto es una etiqueta" end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Boton', function() {
+      var esperado = '';
+      var source = 'begin form BTN "Submit" submit end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Lista Desplegable (Combobox)', function() {
+      var esperado = '"<form> <select id =pais> <option value="Spain">Spain</option> \n,,,,,<option value="Germany">Germany</option> \n,,,,,<option value="Poland">Poland</option> \n,,,,,<option value="UK">UK</option> \n</select></br></br></br> </form>"';
+      var source = 'begin form cbx pais = "Spain" ,"Germany" ,"Poland" ,"UK"; end.';
+      var result = form.parse(source);
+      
+      assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
+   });
+   test('Error', function() {
+      var source = 'begin end.';
+      var result = form.parse(source);
+      
+      assert.match (JSON.stringify(result,undefined,2), /SyntaxError/)
    });
 });
