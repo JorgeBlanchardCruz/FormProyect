@@ -61,7 +61,8 @@
 
           <div class="control-group">
             <label for="saveas">Download the form:</label>
-            <input onclick="save()" class="btn" type="button" name="Submit" value="Download the Form" id="Submit" />
+            <button class="btn" id="Submit" type="button">Download form HTML</button>
+            <button class="btn" id="Submit2" type="button">Download form PDF</button>
           </div>
 
           <form class="form-horizontal" action="/delete" method="post">
@@ -144,3 +145,6 @@
 </div> <!-- content -->
 
 <br><br><br>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+<script src="js/jquery.generateFile.js"></script>
