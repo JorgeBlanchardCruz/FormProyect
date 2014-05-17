@@ -12,8 +12,6 @@
 
 >Puede probar en [Heroku](http://formproyect.herokuapp.com/), el funcionamiento del *Formulario WEB*.
 
->... EN PROCESO ...
-
 ## Desarrollo
 
 >Los lenguajes y herramientas (frameworks, librerías, etc.) utilizados para el desarrollo del presente proyecto fueron:
@@ -32,6 +30,7 @@
 * [Omniauth](http://intridea.github.io/omniauth/)
 * [Sinatra-Flash](https://github.com/SFEley/sinatra-flash)
 * [bootstrap](http://getbootstrap.com/)
+* [PHP](http://www.php.net/manual/es/)
 
 ## Tests
 
