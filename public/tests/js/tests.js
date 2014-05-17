@@ -93,7 +93,7 @@ suite('AST', function() {
    });
    test('Etiqueta', function() {
       var esperado = '[\n  {\n    "type": "FORM",\n    "value": [\n      {\n        "type": "LBL",\n        "value": "Esto es una etiqueta"\n      }\n    ]\n  }\n]';
-      var source = 'begin form LBL "Esto es una etiqueta" end.';
+      var source = 'begin form - "Esto es una etiqueta" end.';
       var result = ast.parse(source);
       
       assert.deepEqual (JSON.stringify(result,undefined,2), esperado);
