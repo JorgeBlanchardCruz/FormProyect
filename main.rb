@@ -66,12 +66,12 @@ get '/:selected?' do |selected|
     \n
     \n\t\"En primera instancia, introduzca sus datos personales:\";
     \n\ttxt \"Nombre y Apellidos: \" nombreap = \"\";
-    \n\ttxt \"País de orígen:     \" pais = \"España\";
+    \n\ttxt \"Pais de origen:     \" pais = \"Spain\";
     \n\ttxt \"Provincia:          \" provincia = \"S/C Tenerife\";
-    \n\tcbx \"Edad:               \" edad = \"Seleccione uno\", \"entre 10-18\", \"entre 19-25\", \"entre 26-31\", \"entre 31-45\", \"mayor 45 años\";
+    \n\tcbx \"Edad:               \" edad = \"Seleccione uno\", \"entre 10-18\", \"entre 19-25\", \"entre 26-31\", \"entre 31-45\", \"mayor 45\";
     \n\tcbx \"Nivel de estudios:  \" estudios = \"Seleccione uno\", \"Sin estudios\", \"Estudios medios\", \"Estudios universitarios\";
     \n\t
-    \n\t\"¿Cual es su sexo?\"
+    \n\t\"Sexo\"
     \n\ttable 50
     \n\t\trbt \"Hombre\" sexo
     \n\t\trbt \"Mujer\" sexo
@@ -88,11 +88,11 @@ get '/:selected?' do |selected|
     \n\t\"1  \" \"Intento evitar a la gente complicada  \"                     rbt s1  rbt s1  rbt s1  rbt s1  rbt s1
     \n\t\"2  \" \"Creo en la importancia del arte\"                            rbt s2  rbt s2  rbt s2  rbt s2  rbt s2
     \n\t\"3  \" \"Prefiero la variedad a la rutina\"                           rbt s3  rbt s3  rbt s3  rbt s3  rbt s3
-    \n\t\"4  \" \"Evito argumentaciones y conversaciones filosóficas\"         rbt s4  rbt s4  rbt s4  rbt s4  rbt s4
-    \n\t\"5  \" \"Llevo la conversación a un nivel más elevado\"               rbt s5  rbt s5  rbt s5  rbt s5  rbt s5
-    \n\t\"6  \" \"Raramente le busco un significado más profundo a las cosas\" rbt s6  rbt s6  rbt s6  rbt s6  rbt s6
+    \n\t\"4  \" \"Evito argumentaciones y conversaciones filosoficas\"         rbt s4  rbt s4  rbt s4  rbt s4  rbt s4
+    \n\t\"5  \" \"Llevo la conversacion a un nivel mas elevado\"               rbt s5  rbt s5  rbt s5  rbt s5  rbt s5
+    \n\t\"6  \" \"Raramente le busco un significado mas profundo a las cosas\" rbt s6  rbt s6  rbt s6  rbt s6  rbt s6
     \n\t\"7  \" \"Me encanta idear nuevas formas de hacer las cosas\"          rbt s7  rbt s7  rbt s7  rbt s7  rbt s7
-    \n\t\"8  \" \"No me interesan las argumentaciones y conversaciones teóricas\"rbt s8  rbt s8  rbt s8  rbt s8  rbt s8
+    \n\t\"8  \" \"No me interesan las argumentaciones y conversaciones teoricas\"rbt s8  rbt s8  rbt s8  rbt s8  rbt s8
     \n\t\"9  \" \"Disfruto escuchando nuevas ideas\"                           rbt s9  rbt s9  rbt s9  rbt s9  rbt s9
     \n\t\"10 \" \"No estoy interesado en ideas abstractas\"                    rbt s10  rbt s10  rbt s10  rbt s10  rbt s10
     \n\tendtable;
