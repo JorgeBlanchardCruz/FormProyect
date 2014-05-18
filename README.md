@@ -2,7 +2,11 @@
 
 ## Resumen
 
->...
+>Esta aplicación nos permite crear un formulario mediante una gramática creada por los integrantes del grupo. Además, se podrá guardar formularios para aquellas personas que estén longueadas por google o facebook.
+
+>Aplicación web para realizar y generar formularios basados en una gramática desarrollada para facilitar la creación de ésta. Al escribir el código del formulario se va generando, su vista previa, si se presiona el botón **Create Form**. Esta aplicación permite, además, exportar el formulario como fichero **HTML** y/o como **PDF**.
+Al final de la página, se muestran dos columnas: una, muestra el **AST** de la gramática; y la otra, el código **HTML** del formulario.
+
 
 ## Motivación
 
