@@ -56,34 +56,30 @@ height        = HEIGHT n:NUMBER                 { return {type: 'HEIGHT', value:
 
 // ***** FORM : Informa del inicio de la parte del contenido
 form          = FORM f:(
-                          i:item                { return i; }
-                          / t:table             { return t; }
-                        )*
-                                                { return {type: 'FORM', value: f}; }
+                                w:whiteline    { return w; }
+                              / t:table        { return t; }
+                              / e:endtable     { return e; }
+                              / l:line         { return l; }
+                              / t:textbox      { return t; }
+                              / e:email        { return e; }
+                              / t:tel          { return t; }
+                              / d:date         { return d; }
+                              / r:range        { return r; }
+                              / p:password     { return p; }
+                              / c:checkbox     { return c; }
+                              / r:radiobutton  { return r; }
+                              / l:label        { return l; }
+                              / l:labelm       { return l; }
+                              / b:button       { return b; }
+                              / c:combobox     { return c; }
+                      )*
+                            { return {type: 'FORM', value: f}; }
 
-// ***** table : Inicio de la tabla, se especifica nº columnas y tamaño
-table = TABLE c:(NUMBER)? w:(NUMBER)? i:(item)+ e:endtable                
-                                                    { return {type: 'TABLE', col: c, widht: w, item: i}; }
 
-// ***** item : elementos que componen el form
-item        =         i:(
-                          w:whiteline           { return w; }
-                          / l:line              { return l; }
-                          / t:textbox           { return t; }
-                          / e:email             { return e; }
-                          / t:tel               { return t; }
-                          / d:date              { return d; }
-                          / r:range             { return r; }
-                          / p:password          { return p; }
-                          / c:checkbox          { return c; }
-                          / r:radiobutton       { return r; }
-                          / l:label             { return l; }
-                          / b:button            { return b; }
-                        )
-                                                { return i; }
+// ***** TABLE
+table = TABLE c:(NUMBER)? w:(NUMBER)?  { return {type: 'TABLE', col: c, widht: w, }; }
 
-// ***** endtable : Fin de la tabla
-endtable    = ENDTABLE                              { return {type: 'ENDTABLE'}; }
+endtable    = ENDTABLE                { return {type: 'ENDTABLE' }; }
 
 // ***** Linea en blanco : 
 whiteline     = WHITELINE                           { return {type: 'WHITELINE'}; }
@@ -91,14 +87,20 @@ whiteline     = WHITELINE                           { return {type: 'WHITELINE'}
 // ***** LINE
 line          = LINE                                { return {type: 'LINE'}; }
 
+// ***** LABEL :
+label           = v:VALUE                           { return {type: 'LBL', value: v}; }
+
+// ***** LABEL con marco :
+labelm          = LBL v:VALUE                       { return {type: 'LBLM', value: v}; }
+
 // ***** TEXTBOX : 
 textbox       = TXT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'TXT', label: l, value: v}; }
 
 // ***** CHECKBOX :
-checkbox      = CHX l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'CHX', label: l, value: v}; }
+checkbox      = CHX l:(VALUE)? i:ID                 { return {type: 'CHX', label: l}; }
 
 // ***** RADIO BUTTONS :
-radiobutton   = RBT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'RBT', label: l, value: v}; }
+radiobutton   = RBT l:(VALUE)? i:ID                 { return {type: 'RBT', label: l}; }
 
 // ***** PASSWORD :
 password      = PWD l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'PWD', label: l, value: v}; }
@@ -115,25 +117,30 @@ date          = DAT l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'DAT', label
 // ***** RANGE :
 range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'RAG', label: l, value: v}; }
 
-// ***** LABEL :
-label         = LBL v:(VALUE)?                      { return {type: 'LBL', value: v}; }
-
 // ***** BUTTON
-button        = BTN l:(VALUE)? i:ID                 { return {type: 'BTN', label: l, id: i}; }    
+button        = BTN l:(VALUE)? i:ID                 { return {type: 'BTN', label: l, id: i}; }
+
+// ***** COMBOBOX
+combobox        = CBX i:ID ASSIGN ci:(combobox_item (COMMA combobox_item)*) { 
+                                                                              var val = ci.join();
+                                                                              val = val.replace(/,+/g,', ');
+                                                                              return {type: 'CBX', id: i, value: val}; 
+                                                                            }
+combobox_item   = v:VALUE                                                   { return v; }
+
 
 // ***** CONST : Símbolos terminales
 _           = $[ \t\n\r]*
 ASSIGN      = _ '=' _          
 DOT         = _ "." _
+COMMA       = _ "," _
 SEMICOLON   = _ ";" _ 
-ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                    { return id; }
-NUMBER      = _ digits:$[0-9]+ _                                  { return parseInt(digits, 10); } 
-PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9áéíóú+!\/]*.[a-zA-Z_0-9]*) (["]) _ 
-                                                                  { return path; }
-VALUE       = _ (["]) val:$([a-zA-Z0-9\-_áéíóú+!. ]*) (["]) _     { return val; }
-MAIL        = _ email:$([a-zA-Z_0-9.-áéíóú+!]*[@][a-zA-Z]*.[a-zA-Z]*) _
-                                                                  { return email; }
-TLF         = _ tlf:$([0-9 ]*) _                                  { return tlf; }
+ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _                                         { return id; }
+NUMBER      = _ digits:$[0-9]+ _                                                       { return parseInt(digits, 10); } 
+PATH        = _ (["]) path:$([\/]?[a-zA-Z0-9áéíóú+!\/]*.[a-zA-Z_0-9]*) (["]) _         { return path; }
+VALUE       = _ (["]) val:$([a-zA-Z0-9-_ñÑáéíóú?¿+!.,:;\/= ]*) (["]) _                 { return val; }
+MAIL        = _ (["]) email:$([a-zA-Z_0-9.-áéíóú+!]*[@][a-zA-Z]*.[a-zA-Z]*) (["]) _    { return email; }
+TLF         = _ (["]) tlf:$([0-9 ]*) (["])_                                            { return tlf; }
 
 BEGIN       = _ ("begin"/"BEGIN") _
 END         = _ ("end"/"END") _
@@ -147,8 +154,8 @@ FORM        = _ ("form"/"FORM") _
 // ** Objetos del formulario
 TABLE       = _ ("table"/"TABLE") _
 ENDTABLE    = _ ("endtable"/"ENDTABLE") _
-WHITELINE = _ (";") _   //si se pudiera conseguir que los espacios con enter los interpretara como linea en blanco sería genial.
-LINE      = _ ("-") _
+WHITELINE   = _ (";") _
+LINE        = _ ("-") _
 TXT         = _ ("txt"/"TXT") _
 CHX         = _ ("chx"/"CHX") _
 RBT         = _ ("rbt"/"RBT") _
@@ -159,5 +166,13 @@ DAT         = _ ("dat"/"DAT") _
 RAG         = _ ("rag"/"RAG") _
 LBL         = _ ("lbl"/"LBL") _
 BTN         = _ ("btn"/"BTN") _
+CBX         = _ ("cbx"/"CBX") _
+
+
+
+
+
+
+
 
 

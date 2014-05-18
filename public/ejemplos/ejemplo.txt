@@ -7,20 +7,25 @@ begin
       
       txt "Nombre" ident = "Aqui su nombre";
       txt "Apellidos" ident = "Aqui sus apellidos";
-      txt "Email" ident = "Aqui sus Correo Electronico";
+      txt "Email" ident = "Aqui su Correo Electronico";
       txt "Poblacion" ident = "Buenavista del Norte";
       txt "Provincia" ident = "Santa Cruz de Tenerife";
       
+      "¿Edad?"
+      table 2
       rbt "0-20" edad = " " 
       rbt "21-40" edad = " "
       rbt "41-60" edad = " " 
-      rbt "60-100" edad = " " 
+      rbt "60-100" edad = " "
+      endtable;
       ;;
-      "Como os Conociste"
+      "¿Como nos conociste?"
+      table 2 300
       chx "A traves de un amigo"  vehiculo = ""
       chx "A traves de un buscador"  vehiculo = ""
       chx "Navegando por la red"  vehiculo = ""
       chx "Otros"  vehiculo = ""
+      endtable;
       
       table 2 30
       btn "Enviar" submit
