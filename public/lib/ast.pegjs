@@ -121,7 +121,7 @@ range         = RAG l:(VALUE)? i:ID ASSIGN v:VALUE  { return {type: 'RAG', label
 button        = BTN l:(VALUE)? i:ID                 { return {type: 'BTN', label: l, id: i}; }
 
 // ***** COMBOBOX
-combobox        = CBX i:ID ASSIGN ci:(combobox_item (COMMA combobox_item)*) { 
+combobox      = CBX l:(VALUE)? i:ID ASSIGN ci:(combobox_item (COMMA combobox_item)*)  { 
                                                                               var val = ci.join();
                                                                               val = val.replace(/,+/g,', ');
                                                                               return {type: 'CBX', id: i, value: val}; 
