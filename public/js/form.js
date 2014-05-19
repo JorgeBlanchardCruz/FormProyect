@@ -3265,7 +3265,7 @@ form = (function() {
     	      break;
 
     	    case "button":
-    	      pr = "<button class='btn-large' type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
+    	      pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
     	      break;
 
     	    case "combobox":
