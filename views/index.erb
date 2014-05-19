@@ -21,10 +21,11 @@
     </ul>
   </div>
 
+  <p>
+    <div id="flash"><%= flash[:notice] if flash[:notice]%></div>
+  </p>
+
   <br><br>
-
-
-
 
     <table class="loadfile">
       <tr>
@@ -106,10 +107,6 @@
           </form>
         </td>
     </table>
-
-  <p>
-    <div id="flash"><%= flash[:notice] if flash[:notice]%></div>
-  </p>
 
   <div class="hidden" id="out">
     <table class="ini">
