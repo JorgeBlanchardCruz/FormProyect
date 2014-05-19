@@ -35,42 +35,19 @@ $(document).ready(function() {
     }
     r.readAsText(f);
   });
-
-  $("#Submit").click(function(e) {
-
-     var myCodeMirror = $(".CodeMirror")[0].CodeMirror;
-     var source = myCodeMirror.getValue();
-     var result2 = form.parse(source);
-     
-     $.generateFile({
-         filename    : 'formulario.html', //export.txt
-         //content     : $('#output3'),
-         content     : $('#output3').html(JSON.stringify(result2.HTML,undefined,2)),
-         script      : 'lib/download.php'
-     });
-
-     e.preventDefault();
-  });
-
-  $("#Submit2").click(function(e) {
-     //alert("Descargando formulario en HTML");
-     //alert("Output 3: " + $('#output3'));
-
-     var myCodeMirror = $(".CodeMirror")[0].CodeMirror;
-     var source = myCodeMirror.getValue();
-     var result2 = form.parse(source);
-     
-     $.generateFile({
-         filename    : 'formulario.pdf', //export.txt
-         //content     : $('#output3'),
-         content     : $('#output3').html(JSON.stringify(result2.HTML,undefined,2)),
-         script      : 'lib/pdf.php'
-     });
-
-     e.preventDefault();
-  });
   
 });
 
-  
+function save(a, filename) {
+  var myCodeMirror = $(".CodeMirror")[0].CodeMirror;
+  var source = myCodeMirror.getValue();
+  var result2 = form.parse(source);
+  var content = result2.FORM;
+
+
+  contentType =  'data:application/octet-stream,';
+  uriContent = contentType + encodeURIComponent(content);
+  a.setAttribute('href', uriContent);
+  a.setAttribute('download', filename);
+}
 
