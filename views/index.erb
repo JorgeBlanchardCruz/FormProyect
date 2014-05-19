@@ -38,7 +38,6 @@
               <ul class="nav">
                 <% programs.sort.each do |p| %>
                   <li><a href="<%= p.name %>" <%=current?('/'+p.name)%>><%= p.name %></a></li>
-                  <!--<li><a href="<%= '/'+p.user+'/'+ p.name %>" <%=current?('/'+p.name)%>><%= p.name %></a></li>-->
                 <% end %>
               </ul>
             </div>
@@ -48,15 +47,6 @@
           <span class="btn btn-file">
             File <input type="file" id="examples">
           </span>
-
-          <p></p>
-
-          <p>You can see the files stored by:</p>
-          <ul class="nav">
-            <% users.sort.each do |p| %>
-              <li><%= p.user %></a></li>
-            <% end %>
-          </ul>
 
           <br><br>
 

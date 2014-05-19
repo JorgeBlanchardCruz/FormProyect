@@ -6,20 +6,18 @@ require 'omniauth-twitter'
 
 use OmniAuth::Builder do
   config = YAML.load_file 'config/config.yml'
-  provider :google_oauth2, config['identifier_gg'], config['secret_gg']
+  provider :google_oauth2, config['identifier_gg_local'], config['secret_gg_local']
   provider :facebook, config['identifier_fb'], config['secret_fb']
   provider :twitter, config['identifier_tw'], config['secret_tw']
   provider :github, config['identifier_gh'], config['secret_gh']
 end
 
 get '/auth/:name/callback' do
-  puts "\n**********************@auth/:name/callback*********************"
   session[:auth] = @auth = request.env['omniauth.auth']
   session[:name] = @auth['info'].name
   session[:image] = @auth['info']['image']
   session[:email] = @auth['info']['email']
   session[:url] = @auth['extra']['raw_info']['link']
-  c = Login.first_or_create(:user => session[:name])
   puts "params = #{params}"
   puts "@auth.class = #{@auth.class}"
   puts "@auth info = #{@auth['info']}"

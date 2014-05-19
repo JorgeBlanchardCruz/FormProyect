@@ -17,7 +17,7 @@ end
 enable :sessions
 set :session_secret, '*&(^#234)'
 set :reserved_words, %w{grammar test login auth}
-set :max_files, 3        # no more than max_files+1 will be saved
+set :max_files, 5        # no more than max_files+1 will be saved
 
 helpers do
   def current?(path='/')
@@ -40,15 +40,11 @@ get '/logout' do
 end
 
 get '/:selected?' do |selected|
-  puts "\n*****************************@auth*****************************"
-  puts "\nName: #{session[:name]}"
-  puts "\n***** Auth Hash " 
+  puts "*************@auth*****************"
+  puts session[:name]
   pp session[:auth]
-  programs = FormProyect.all(:user => session[:name])
-  users = Login.all
-  puts "\n***** Programs Stored  "
+  programs = FormProyect.all
   pp programs
-  puts "\n***** Selected "
   puts "selected = #{selected}"
   c  = FormProyect.first(:name => selected)
   user = session[:name] 
@@ -104,13 +100,11 @@ get '/:selected?' do |selected|
     \nend." 
   end
   erb :index, 
-      :locals => {  :programs => programs, :users => users, :source => source, 
+      :locals => {  :programs => programs, :source => source, 
                     :user => user, :img => img, :url => url, :email => email }
 end
 
-
 post '/save' do
-  puts "\n*****************************save*****************************"
   pp params
   name = params[:fname]
   if session[:auth] # authenticated
@@ -119,7 +113,7 @@ post '/save' do
         %Q{<div class="error">Can't save file with name '#{name}'.</div>}
       redirect back
     else 
-      c  = FormProyect.first(:name => name, :user => session[:name])
+      c  = FormProyect.first(:name => name)
       if c
         c.source = params["input"]
         c.save
@@ -130,9 +124,7 @@ post '/save' do
         end
         c = FormProyect.create(
           :name => params["fname"], 
-          :user => session[:name],
-          :source => params["input"],
-          :login_user => session[:name])
+          :source => params["input"])
       end
       flash[:notice] = 
         %Q{<div class="success">File saved as #{c.name} by #{session[:name]}.</div>}
@@ -149,7 +141,6 @@ post '/save' do
 end
 
 post '/delete' do
-    puts "\n*****************************delete*****************************"
   pp params
   name = params[:fname]
   if session[:auth] # authenticated
@@ -158,7 +149,7 @@ post '/delete' do
         %Q{<div class="error">Can't save file with name '#{name}'.</div>}
       redirect back
     else 
-      c  = FormProyect.first(:name => name, :user => session[:name])
+      c  = FormProyect.first(:name => name)
       if c
         c.source = params["input"]
         c.destroy
