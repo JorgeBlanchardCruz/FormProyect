@@ -6,7 +6,7 @@ require 'omniauth-twitter'
 
 use OmniAuth::Builder do
   config = YAML.load_file 'config/config.yml'
-  provider :google_oauth2, config['identifier_gg_local'], config['secret_gg_local']
+  provider :google_oauth2, config['identifier_gg'], config['secret_gg']
   provider :facebook, config['identifier_fb'], config['secret_fb']
   provider :twitter, config['identifier_tw'], config['secret_tw']
   provider :github, config['identifier_gh'], config['secret_gh']
