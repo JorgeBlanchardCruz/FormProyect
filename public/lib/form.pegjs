@@ -9,19 +9,6 @@
   const COLPXDEF = 200, NCOLDEF = 1;
   var icol = 0, Ncol = NCOLDEF, CreatingTable = false;
 
-  var css = function(w, h) {
-    /*var pr = '<style type="text/css">'; 
-    var po = '</style>';
-    w = w.replace(/\n+$/,'');
-    h = h.replace(/\n+$/,'');
-    if (!w) w = "auto"
-    if (!h) h = "auto"
-    pr = pr + 'body { width: ' + w + 'px; height: ' + h + 'px; }';
-    return pr+po;*/
-
-    return ' ';
-  }
-
   // ***** Escape del HTML
   var entityMap = {
     "&": "&amp;",   
@@ -120,7 +107,7 @@
         pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
     }
 
-    return pr+po+'<br><br>';
+    return pr+po;
   }
 }
 
@@ -128,8 +115,8 @@
 start         = BEGIN i:(initialize)? o:(options)? f:(form)+ END DOT
                                                 {
                                                   var start_ = [];
-                                                  if(i) start_ = start_.concat(i);
                                                   if(o) start_ = start_.concat(o);
+                                                  if(i) start_ = start_.concat(i);
                                                   if(f) start_ = start_.concat(f);
                                                   return {HTML: escapeHtml(start_.join('')), 
                                                           FORM: start_.join('')}; 
@@ -143,8 +130,6 @@ options       = OPTIONS l:(logo)? w:(width)? h:(height)?
                                                 {
                                                   var options_ = [];
                                                   if(l) options_ = options_.concat(l);
-                                                  size = css(w, h);
-                                                  options_ = options_.concat(size);
                                                   return options_.join('');
                                                 }
 
@@ -178,7 +163,7 @@ form          = FORM f:(
 		                        )*
                         { 	
 							var endtable = (CreatingTable ? ' </table>' : '');
-							return '<form> '+f.join('')+endtable+' </form>'; 
+							return "<form class='form'> "+f.join('')+endtable+' </form>'; 
 						}
 
 // ***** TABLE

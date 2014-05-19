@@ -37,8 +37,8 @@ form = (function() {
         peg$c2 = [],
         peg$c3 = function(i, o, f) {
                                                           var start_ = [];
-                                                          if(i) start_ = start_.concat(i);
                                                           if(o) start_ = start_.concat(o);
+                                                          if(i) start_ = start_.concat(i);
                                                           if(f) start_ = start_.concat(f);
                                                           return {HTML: escapeHtml(start_.join('')), 
                                                                   FORM: start_.join('')}; 
@@ -47,8 +47,6 @@ form = (function() {
         peg$c5 = function(l, w, h) {
                                                           var options_ = [];
                                                           if(l) options_ = options_.concat(l);
-                                                          size = css(w, h);
-                                                          options_ = options_.concat(size);
                                                           return options_.join('');
                                                         },
         peg$c6 = function(p, v) { return img(p, 30, 30, v); },
@@ -64,7 +62,7 @@ form = (function() {
         peg$c16 = function(b) { return b; },
         peg$c17 = function(f) { 	
         							var endtable = (CreatingTable ? ' </table>' : '');
-        							return '<form> '+f.join('')+endtable+' </form>'; 
+        							return "<form class='form'> "+f.join('')+endtable+' </form>'; 
         						},
         peg$c18 = function(c, w) {
         															c = ( c ? c : NCOLDEF);
@@ -3193,19 +3191,6 @@ form = (function() {
       const COLPXDEF = 200, NCOLDEF = 1;
       var icol = 0, Ncol = NCOLDEF, CreatingTable = false;
 
-      var css = function(w, h) {
-        /*var pr = '<style type="text/css">'; 
-        var po = '</style>';
-        w = w.replace(/\n+$/,'');
-        h = h.replace(/\n+$/,'');
-        if (!w) w = "auto"
-        if (!h) h = "auto"
-        pr = pr + 'body { width: ' + w + 'px; height: ' + h + 'px; }';
-        return pr+po;*/
-
-        return ' ';
-      }
-
       // ***** Escape del HTML
       var entityMap = {
         "&": "&amp;",   
@@ -3280,7 +3265,7 @@ form = (function() {
     	      break;
 
     	    case "button":
-    	      pr = "<button type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
+    	      pr = "<button class='btn-large' type='"+typ+" id='"+nam+"' '>"+lab+"</button>";
     	      break;
 
     	    case "combobox":
@@ -3304,7 +3289,7 @@ form = (function() {
             pr += "<img src='"+logo+"' height='"+h+"' width='"+w+"'>";
         }
 
-        return pr+po+'<br><br>';
+        return pr+po;
       }
 
 

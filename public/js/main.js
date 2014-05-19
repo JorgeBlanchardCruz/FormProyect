@@ -44,6 +44,14 @@ function save(a, filename) {
   var result2 = form.parse(source);
   var content = result2.FORM;
 
+  var pr = "<!DOCTYPE HTML>"; 
+  pr += "<html lang='en'>"
+  pr += '<head><meta charset="utf-8">';
+  pr += '<title>Form Proyect</title>';
+  pr += '<link rel="stylesheet" href="form.css" type="text/css" media="screen" charset="utf-8" />';
+  pr += '</head><body>'
+
+  content = pr + content + '</body></html>';
 
   contentType =  'data:application/octet-stream,';
   uriContent = contentType + encodeURIComponent(content);
