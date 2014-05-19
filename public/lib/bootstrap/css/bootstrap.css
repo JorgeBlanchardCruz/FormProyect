@@ -22,7 +22,7 @@ height:150px;
 /* ESTILO PARA LA PRESENTACIÓN DE LA GRAMÁTICA */
 .grammar {
   background: rgba(76, 162, 178, 0.65);
-  width: 1500;
+  width: 1110px;
   border-radius: 7px;
   color: #e6f0d6;
   padding: 20px; }
@@ -32,7 +32,7 @@ table.loadfile {
   border-spacing: 35px 15px;
   /*background: rgba(81, 124, 53, 0.65);*/
   background: rgba(76, 162, 178, 0.65);
-  width: 1500px;
+  width: 1110px;
   border-radius: 7px;
   color: #e6f0d6;
   table-layout: fixed; }
