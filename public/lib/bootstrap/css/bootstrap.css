@@ -19,6 +19,13 @@ width:150px;
 height:150px;
 }
 
+/* ESTILO DE LOS FLASH */
+#flash {
+  width: 600px;
+  font-weight: bold;
+  color: white;
+}
+
 /* ESTILO PARA LA PRESENTACIÓN DE LA GRAMÁTICA */
 .grammar {
   background: rgba(76, 162, 178, 0.65);
